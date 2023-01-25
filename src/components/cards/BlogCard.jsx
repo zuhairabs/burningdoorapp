@@ -92,7 +92,7 @@ const ViewCount = styled(Minutes)``;
 
 const BlogCard = ({ item }) => {
   return (
-    <Wrapper noLinkClass transition="f7-dive" href="/about/">
+    <Wrapper noLinkClass transition="f7-dive" href="/blog/1">
       <BlogCardWrapper>
         <ImageWrapper>
           <Image />

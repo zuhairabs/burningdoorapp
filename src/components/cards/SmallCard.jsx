@@ -70,7 +70,7 @@ const SmallCard = ({ isPopular, item, index }) => {
       index={index}
       noLinkClass
       transition="f7-dive"
-      href="/about/"
+      href="/blog/1"
     >
       <ImageWrapper />
       <Title>{truncate(item, { length: 36 })}</Title>

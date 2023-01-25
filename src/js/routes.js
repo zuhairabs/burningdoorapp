@@ -7,6 +7,8 @@ import CategoriesPage from "../pages/categories.jsx";
 import CategoryPage from "../pages/singlecategory.jsx";
 import SettingsPage from "../pages/settings.jsx";
 import AboutMorePage from "../pages/aboutmore.jsx";
+import SingleBlogPage from "../pages/singleblog.jsx";
+import BlogDetailsPage from "../pages/blogdetails.jsx";
 
 var routes = [
   {
@@ -26,6 +28,10 @@ var routes = [
     component: AboutPage,
   },
   {
+    path: "/about-more",
+    component: AboutMorePage,
+  },
+  {
     path: "/popular",
     component: PopularPage,
   },
@@ -38,12 +44,16 @@ var routes = [
     component: CategoryPage,
   },
   {
-    path: "/settings",
-    component: SettingsPage,
+    path: "/blog/:id",
+    component: SingleBlogPage,
   },
   {
-    path: "/about-more",
-    component: AboutMorePage,
+    path: "/blog/details/:id",
+    component: BlogDetailsPage,
+  },
+  {
+    path: "/settings",
+    component: SettingsPage,
   },
 ];
 

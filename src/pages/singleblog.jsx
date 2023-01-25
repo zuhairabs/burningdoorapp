@@ -3,6 +3,7 @@ import { Button, Link, Page } from "framework7-react";
 import styled from "styled-components";
 import { BsArrowLeft } from "react-icons/bs";
 import { BsGlobe } from "react-icons/bs";
+import { BiBookmarkAlt } from "react-icons/bi";
 import { FiShare } from "react-icons/fi";
 import { appDetails, shareData } from "../constants/about";
 import AboutLogo from "../assets/logo_large.jpg";
@@ -142,7 +143,14 @@ const LeftArrow = styled(BsArrowLeft)`
   border-radius: 50%;
 `;
 
-const AboutPage = ({ f7router }) => {
+const BookmarkIcon = styled(BiBookmarkAlt)`
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(4px);
+  padding: 0.8rem;
+  border-radius: 50%;
+`;
+
+const SingleBlogPage = ({ f7router }) => {
   const shareApp = async () => {
     if (window.navigator.share) {
       window.navigator.share(shareData);
@@ -153,7 +161,7 @@ const AboutPage = ({ f7router }) => {
   };
 
   return (
-    <Page name="about">
+    <Page name="singleblog">
       <MainWrapper>
         <ImageWrapper>
           <Wrapper>
@@ -162,6 +170,7 @@ const AboutPage = ({ f7router }) => {
               color="white"
               size={20}
             />
+            <BookmarkIcon color="rgba(255,255,255,0.8)" size={20} />
           </Wrapper>
           <Image />
         </ImageWrapper>
@@ -174,14 +183,14 @@ const AboutPage = ({ f7router }) => {
               external
               href={appDetails.url}
             >
-              <BsGlobe size={15} /> {appDetails.tag}
+              <BsGlobe size={15} /> Open in Website
             </Pill>
             <Pill noLinkClass transition="f7-dive" href="" onClick={shareApp}>
-              <FiShare size={15} /> Share App
+              <FiShare size={15} /> Share blog
             </Pill>
           </PillWrapper>
           <Text>{appDetails.shortDesc}</Text>
-          <StyledButton transition="f7-push" href="/about-more/" fill>
+          <StyledButton transition="f7-push" href="/blog/details/4" fill>
             Read More
           </StyledButton>
         </ContentWrapper>
@@ -189,4 +198,4 @@ const AboutPage = ({ f7router }) => {
     </Page>
   );
 };
-export default AboutPage;
+export default SingleBlogPage;
