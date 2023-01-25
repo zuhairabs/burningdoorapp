@@ -1,0 +1,19 @@
+{
+  "cwd": "/home/mohammad/zuhair/theburningdoor2",
+  "type": [
+    "web"
+  ],
+  "name": "The Burning Door",
+  "framework": "react",
+  "template": "blank",
+  "bundler": "vite",
+  "cssPreProcessor": false,
+  "theming": {
+    "customColor": false,
+    "color": "#007aff",
+    "darkTheme": false,
+    "iconFonts": true,
+    "fillBars": false
+  },
+  "customBuild": false
+}

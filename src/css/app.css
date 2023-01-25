@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Paytone+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;600;700&display=swap");
+
+/* iOS Cordova Tweak */
+.device-cordova.device-ios {
+  height: 100vh;
+}
+
+/* Custom color theme properties */
+:root {
+  --f7-theme-color: #f28a10;
+  --f7-theme-color-rgb: 242, 138, 16;
+  --f7-theme-color-shade: #ce740b;
+  --f7-theme-color-tint: #f49d37;
+}
+
+/* Your app custom styles here */
+
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+*::-moz-selection {
+  /* Code for Firefox */
+  color: white;
+  background: #f28a10;
+}
+
+*::selection {
+  color: white;
+  background: #f28a10;
+}
+
+.sheet-modal.modal-in {
+  border-radius: 2rem 2rem 0 0;
+}

@@ -1,0 +1,21 @@
+{
+  "appId": "com.theburningdoor.app",
+  "appName": "The Burning Door",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 3000,
+      "launchAutoHide": true,
+      "backgroundColor": "#000",
+      "androidSplashResourceName": "splash",
+      "androidScaleType": "CENTER_CROP",
+      "splashFullScreen": true,
+      "splashImmersive": true
+    }
+  },
+  "server": {
+    "url": "http://192.168.0.107:5173",
+    "cleartext": true
+  }
+}
