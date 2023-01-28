@@ -31,7 +31,12 @@ const SearchInputWrapper = styled.div`
   }
 `;
 
-const SearchInput = ({ value, setValue, disabled = false }) => {
+const SearchInput = ({
+  value,
+  setValue,
+  disabled = false,
+  placeholder = "Search blogs...",
+}) => {
   const inputRef = useRef();
 
   useEffect(() => {
@@ -46,7 +51,7 @@ const SearchInput = ({ value, setValue, disabled = false }) => {
         ref={inputRef}
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        placeholder="Search blogs..."
+        placeholder={placeholder}
       />
     </SearchInputWrapper>
   );

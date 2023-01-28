@@ -9,6 +9,8 @@ import SettingsPage from "../pages/settings.jsx";
 import AboutMorePage from "../pages/aboutmore.jsx";
 import SingleBlogPage from "../pages/singleblog.jsx";
 import BlogDetailsPage from "../pages/blogdetails.jsx";
+import KitabPage from "../pages/kitab.jsx";
+import KitabSinglePage from "../pages/kitabsingle.jsx";
 
 var routes = [
   {
@@ -50,6 +52,14 @@ var routes = [
   {
     path: "/blog/details/:id",
     component: BlogDetailsPage,
+  },
+  {
+    path: "/kitab",
+    component: KitabPage,
+  },
+  {
+    path: "/kitab/:id",
+    component: KitabSinglePage,
   },
   {
     path: "/settings",

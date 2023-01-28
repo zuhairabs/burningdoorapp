@@ -42,6 +42,7 @@ const store = createStore({
             bg: "#f7f7f7",
             color: "#363636",
             quoteColor: "#fff",
+            shadeColor: "247,247,247",
             isSelected: true,
           },
           {
@@ -52,6 +53,7 @@ const store = createStore({
             lightColor: "#aaaaaa",
             lightBg: "#383838",
             quoteColor: "#383838",
+            shadeColor: "33,33,33",
             isSelected: false,
           },
           {
@@ -61,6 +63,7 @@ const store = createStore({
             color: "#553e1b",
             lightColor: "#a07536",
             quoteColor: "#fff",
+            shadeColor: "255, 234, 203",
             isSelected: false,
           },
         ],

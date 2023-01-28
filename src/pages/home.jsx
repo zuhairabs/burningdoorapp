@@ -7,6 +7,7 @@ import SearchInput from "../components/Input/SearchInput";
 import styled from "styled-components";
 import { FiTrendingUp } from "react-icons/fi";
 import CategoryList from "../components/list/CategoryList";
+import BookBanner from "../components/banner/BookBanner";
 
 const SearchWrapper = styled.div`
   width: 100%;
@@ -52,6 +53,7 @@ const HomePage = ({ f7router }) => (
       </AllLink>
     </TitleWrapper>
     <SmallCardList />
+    <BookBanner />
     <TitleWrapper>
       <Text>Popular</Text>
       <AllLink transition="f7-push" noLinkClass href="/popular/">

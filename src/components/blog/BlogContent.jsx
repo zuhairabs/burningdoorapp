@@ -11,6 +11,7 @@ const Subtitle = styled.p`
   font-weight: 600;
   color: rgb(130, 130, 130);
   font-size: 16px;
+  margin-top: 2rem;
 `;
 
 const Title = styled.h1`
@@ -21,12 +22,29 @@ const Title = styled.h1`
 `;
 
 const Content = styled.div`
-  margin-top: 1.5rem;
+  margin-top: -1.5rem;
   font-weight: 600;
   font-size: ${({ size }) => (size ? `${size}px` : "15px")};
   color: ${({ color }) => (color ? color : "rgb(90, 90, 90)")};
   font-family: ${({ fontFamily }) => (fontFamily ? fontFamily : "inherit")} > h6 {
     font-size: 15px;
+  }
+
+  .chapter-title a {
+    margin: -0.6rem 0 0 0;
+    font-size: 20px;
+    font-weight: 800;
+    color: ${({ color }) => (color ? color : "#111")};
+  }
+
+  .chapter-title-decoration-below,
+  .chapter-title-decoration-above,
+  .chapter-title-corner-decorations {
+    display: none;
+  }
+
+  a {
+    color: ${({ color }) => (color ? color : "rgb(90, 90, 90)")};
   }
 
   > .quote {
@@ -56,18 +74,26 @@ const Content = styled.div`
   }
 `;
 
-const BlogContent = ({ theme, style, fontSize }) => {
+const BlogContent = ({
+  theme,
+  style,
+  fontSize,
+  title = "The Burning Door",
+  subtitle = "About",
+  content = appDetails.description,
+  noTitle = false,
+}) => {
   return (
     <Wrapper>
-      <Subtitle>About</Subtitle>
-      <Title color={theme.color}>The Burning Door </Title>
+      <Subtitle>{subtitle}</Subtitle>
+      {!noTitle && <Title color={theme.color}>{title}</Title>}
       <Content
         fontFamily={style}
         size={fontSize}
         bg={theme.bg}
         color={theme.lightColor}
         quoteColor={theme.quoteColor}
-        dangerouslySetInnerHTML={{ __html: appDetails.description }}
+        dangerouslySetInnerHTML={{ __html: content }}
       />
     </Wrapper>
   );
