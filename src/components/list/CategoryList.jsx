@@ -19,7 +19,7 @@ const CategoryListPill = styled(Link)`
 `;
 
 const CategoryList = ({
-  list = [
+  data = [
     "Batriyyah",
     "Fadak",
     "Kitab Sulaym ",
@@ -32,14 +32,14 @@ const CategoryList = ({
 }) => {
   return (
     <CategoryListWrapper>
-      {list.map((item, index) => (
+      {data.map((item) => (
         <CategoryListPill
           transition="f7-parallax"
           noLinkClass
-          href={`/category/${item}`}
-          key={index}
+          href={`/category/${item.id}`}
+          key={item.id}
         >
-          {item}
+          {item.name}
         </CategoryListPill>
       ))}
     </CategoryListWrapper>

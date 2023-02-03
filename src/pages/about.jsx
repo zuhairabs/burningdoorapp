@@ -1,10 +1,10 @@
 import React from "react";
-import { Button, Link, Page } from "framework7-react";
+import { Button, Link, Page, useStore } from "framework7-react";
 import styled from "styled-components";
 import { BsArrowLeft } from "react-icons/bs";
 import { BsGlobe } from "react-icons/bs";
 import { FiShare } from "react-icons/fi";
-import { appDetails, shareData } from "../constants/about";
+import { shareData } from "../constants/about";
 import AboutLogo from "../assets/logo_large.jpg";
 
 const Wrapper = styled.div`
@@ -151,6 +151,8 @@ const AboutPage = ({ f7router }) => {
       alert("Your device do not support native share");
     }
   };
+
+  const appDetails = useStore("getAppDetails");
 
   return (
     <Page name="about">

@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Heading = styled.div`
-  margin: 0 1.5rem 2rem 1.5rem;
+  margin: 0 1.5rem 1rem 1.5rem;
   font-size: 40px;
   font-weight: 800;
 

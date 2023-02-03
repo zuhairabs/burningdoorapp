@@ -1,14 +1,15 @@
-import React from "react";
-import { Page } from "framework7-react";
+import React, { useEffect } from "react";
+import { Page, useStore } from "framework7-react";
 import SearchInput from "../components/Input/SearchInput";
 import styled from "styled-components";
 import { FiTrendingUp } from "react-icons/fi";
 import BlogList from "../components/list/BlogList";
 import BackButton from "../components/common/BackButton";
 import PageTitle from "../components/Text/PageTitle";
+import store from "../js/store";
 
 const Text = styled.div`
-  margin: 2rem 1rem 1.5rem 2rem;
+  margin: 1rem 1rem 1.5rem 2rem;
   font-size: 16px;
   font-weight: 600;
   color: #666;
@@ -39,38 +40,66 @@ const CategoryListWrapper = styled.div`
   margin: 1rem 1rem 2rem 1.5rem;
 `;
 
+const HeaderWrapper = styled.div`
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 10;
+  padding-bottom: 10px;
+  padding-top: 5px;
+`;
+
 const SearchPage = ({ f7router }) => {
   const [searchValue, setSearchValue] = React.useState("");
+  const isLoading = useStore("isLoading");
+  const topTenBlogs = useStore("getTopTenBlogs");
+  const searchedBlogs = useStore("getSearchedBlogs");
 
-  const trendingList = ["fadak", "fatima", "shahadat"];
+  const trendingList = ["fadak", "fatima", "ali"];
 
-  const keywords = ["fadak", "fatima", "shahadat"];
+  const keywords = ["ayesha", "batri", "shahadat"];
 
   const iconColor = "#f28a10";
 
+  useEffect(() => {
+    if (searchValue.length > 0) {
+      store.dispatch("getSearchedBlogs", searchValue);
+    }
+  }, [searchValue]);
+
   return (
     <Page name="search">
-      <BackButton router={f7router} />
-      <PageTitle title={"Search"} />
-      <SearchInput value={searchValue} setValue={setSearchValue} />
-      <Text>Try searching...</Text>
-      <CategoryListWrapper>
-        {keywords.map((item) => (
-          <CategoryListPill onClick={() => setSearchValue(item)}>
-            {item}
-          </CategoryListPill>
-        ))}
-      </CategoryListWrapper>
+      <HeaderWrapper>
+        <BackButton router={f7router} />
+        <PageTitle title={"Search"} />
+        <SearchInput value={searchValue} setValue={setSearchValue} />
+      </HeaderWrapper>
+      {searchValue.length > 0 ? (
+        <>
+          <BlogList data={searchedBlogs} />
+        </>
+      ) : (
+        <>
+          <Text>Try searching...</Text>
+          <CategoryListWrapper>
+            {keywords.map((item) => (
+              <CategoryListPill key={item} onClick={() => setSearchValue(item)}>
+                {item}
+              </CategoryListPill>
+            ))}
+          </CategoryListWrapper>
 
-      <Text>Trending</Text>
-      {trendingList.map((item) => (
-        <ListItem>
-          <FiTrendingUp color={iconColor} />
-          {item}
-        </ListItem>
-      ))}
-      <Text>Popular</Text>
-      <BlogList />
+          <Text>Trending</Text>
+          {trendingList.map((item) => (
+            <ListItem key={item}>
+              <FiTrendingUp color={iconColor} />
+              {item}
+            </ListItem>
+          ))}
+          <Text>Popular</Text>
+          {isLoading ? "Loading" : <BlogList data={topTenBlogs} />}
+        </>
+      )}
     </Page>
   );
 };

@@ -13,23 +13,11 @@ const BlogCardListWrapper = styled.div`
   }
 `;
 
-const BlogList = ({
-  list = [
-    "Why Aisha (la) poisoned the Prophet (saws) and not the Jewish woman",
-    "Why Aisha (la) poisoned the Prophet (saws) and not the Jewish woman",
-    "Why Aisha (la) poisoned the Prophet (saws) and not the Jewish woman",
-    "Why Aisha (la) poisoned the Prophet (saws) and not the Jewish woman",
-    "Why Aisha (la) poisoned the Prophet (saws) and not the Jewish woman",
-    "Why Aisha (la) poisoned the Prophet (saws) and not the Jewish woman",
-    "Why Aisha (la) poisoned the Prophet (saws) and not the Jewish woman",
-    "Why Aisha (la) poisoned the Prophet (saws) and not the Jewish woman",
-  ],
-  listPadding = "",
-}) => {
+const BlogList = ({ data = [], listPadding = "" }) => {
   return (
     <BlogCardListWrapper padding={listPadding}>
-      {list.map((item, index) => (
-        <BlogCard item={item} key={index} />
+      {data.map((item) => (
+        <BlogCard item={item} key={item.id} />
       ))}
     </BlogCardListWrapper>
   );

@@ -1,8 +1,9 @@
-import React from "react";
-import { Link, Page } from "framework7-react";
+import React, { useEffect } from "react";
+import { Link, Page, useStore } from "framework7-react";
 import styled from "styled-components";
 import BackButton from "../components/common/BackButton";
 import PageTitle from "../components/Text/PageTitle";
+import store from "../js/store";
 
 const CategoryWrapper = styled.div`
   display: flex;
@@ -61,16 +62,9 @@ const ListWrapper = styled.div`
 `;
 
 const CategoriesPage = ({ f7router }) => {
-  const list = [
-    "Batriyyah",
-    "Fadak",
-    "Kitab Sulaym ",
-    "Authentic Narrations",
-    "Tabarrah",
-    "Editor's Choice",
-    "Wahabism",
-    "Hadith Analysis",
-  ];
+  const isLoading = useStore("isLoading");
+  const categories = useStore("getCategories");
+
   return (
     <Page name="categories">
       <Fixed>
@@ -78,18 +72,22 @@ const CategoriesPage = ({ f7router }) => {
         <PageTitle title={"Categories"} />
       </Fixed>
       <ListWrapper>
-        <CategoryWrapper>
-          {list.map((item, index) => (
-            <Category
-              noLinkClass
-              transition="f7-parallax"
-              href={`/category/${item}`}
-              key={index}
-            >
-              <p>{item}</p>
-            </Category>
-          ))}
-        </CategoryWrapper>
+        {isLoading ? (
+          "Loading"
+        ) : (
+          <CategoryWrapper>
+            {categories.map((item) => (
+              <Category
+                noLinkClass
+                transition="f7-parallax"
+                href={`/category/${item.id}`}
+                key={item.id}
+              >
+                <p>{item.name}</p>
+              </Category>
+            ))}
+          </CategoryWrapper>
+        )}
       </ListWrapper>
     </Page>
   );

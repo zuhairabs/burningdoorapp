@@ -1,4 +1,5 @@
 import { createStore } from "framework7/lite";
+import { fetcher } from "../lib/utlis";
 
 const store = createStore({
   state: {
@@ -69,11 +70,46 @@ const store = createStore({
         ],
       },
     ],
+    allBlogs: [],
+    recentBlogs: [],
+    topTenBlogs: [],
+    bookmarks: [],
+    categories: [],
+    categoryBlogs: [],
+    searchedBlogs: [],
+    appDetails: {},
+    loading: false,
   },
   getters: {
     blogControls({ state }) {
-      console.log("reactive called");
       return state.blogControls;
+    },
+    isLoading({ state }) {
+      return state.loading;
+    },
+    getBlogs({ state }) {
+      return state.allBlogs;
+    },
+    getRecentBlogs({ state }) {
+      return state.recentBlogs;
+    },
+    getTopTenBlogs({ state }) {
+      return state.topTenBlogs;
+    },
+    getBookmarks({ state }) {
+      return state.bookmarks;
+    },
+    getCategories({ state }) {
+      return state.categories;
+    },
+    getCategoryBlogs({ state }) {
+      return state.categoryBlogs;
+    },
+    getSearchedBlogs({ state }) {
+      return state.searchedBlogs;
+    },
+    getAppDetails({ state }) {
+      return state.appDetails;
     },
   },
   actions: {
@@ -87,6 +123,55 @@ const store = createStore({
     updateTheme({ state }, newValues) {
       state.blogControls[2] = newValues;
       state.blogControls = [...state.blogControls];
+    },
+    setIsLoading({ state }, value) {
+      state.loading = value;
+    },
+    setBookmarks({ state }, blog) {
+      state.bookmarks = [...state.bookmarks, blog];
+    },
+    async getAllBlogs({ state, dispatch }) {
+      dispatch("setIsLoading", true);
+      const data = await fetcher("/blogs", () => {
+        dispatch("setIsLoading", false);
+      });
+      state.allBlogs = data;
+    },
+    async getRecentBlogs({ state, dispatch }) {
+      dispatch("setIsLoading", true);
+      const data = await fetcher("/recents", () => {
+        dispatch("setIsLoading", false);
+      });
+      state.recentBlogs = data;
+    },
+    async getTopTenBlogs({ state, dispatch }) {
+      dispatch("setIsLoading", true);
+      const data = await fetcher("/topten", () => {
+        dispatch("setIsLoading", false);
+      });
+      state.topTenBlogs = data;
+    },
+    async getCategories({ state, dispatch }) {
+      dispatch("setIsLoading", true);
+      const data = await fetcher("/categories", () => {
+        dispatch("setIsLoading", false);
+      });
+      state.categories = data;
+    },
+    async getCategory({ state, dispatch }, id) {
+      dispatch("setIsLoading", true);
+      const data = await fetcher(`/category/${id}`, () => {
+        dispatch("setIsLoading", false);
+      });
+      state.categoryBlogs = data;
+    },
+    async getSearchedBlogs({ state }, searchInput) {
+      const data = await fetcher(`/search/${searchInput}`, () => {});
+      state.searchedBlogs = data;
+    },
+    async getAppDetails({ state }) {
+      const data = await fetcher("/details", () => {});
+      state.appDetails = data;
     },
   },
 });

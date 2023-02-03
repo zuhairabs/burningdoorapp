@@ -1,5 +1,5 @@
 import React from "react";
-import { Page } from "framework7-react";
+import { Page, useStore } from "framework7-react";
 import styled from "styled-components";
 import BlogList from "../components/list/BlogList";
 import BackButton from "../components/common/BackButton";
@@ -18,6 +18,8 @@ const ListWrapper = styled.div`
 `;
 
 const BookmarkPage = ({ f7router }) => {
+  const bookmarks = useStore("getBookmarks");
+
   return (
     <Page name="bookmark">
       <Fixed>
@@ -25,7 +27,7 @@ const BookmarkPage = ({ f7router }) => {
         <PageTitle title={"Saved"} />
       </Fixed>
       <ListWrapper>
-        <BlogList listPadding="5rem 0" />
+        <BlogList data={bookmarks} listPadding="5rem 0" />
       </ListWrapper>
     </Page>
   );

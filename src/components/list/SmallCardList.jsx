@@ -4,7 +4,7 @@ import SmallCard from "../cards/SmallCard";
 
 const SmallCardListWrapper = styled.div`
   display: flex;
-  gap: ${({ isPopular }) => (isPopular ? "4rem" : "0.8rem")};
+  /* gap: ${({ isPopular }) => (isPopular ? "4rem" : "0.8rem")}; */
   width: 85%;
   margin-top: 1rem;
   overflow-y: scroll;
@@ -15,23 +15,16 @@ const SmallCardListWrapper = styled.div`
   }
 `;
 
-const SmallCardList = ({
-  list = [
-    "Why Aisha (la) poisoned the Prophet (saws) and not the Jewish woman",
-    "Why Aisha (la) poisoned the Prophet (saws) and not the Jewish woman",
-    "Why Aisha (la) poisoned the Prophet (saws) and not the Jewish woman",
-    "Why Aisha (la) poisoned the Prophet (saws) and not the Jewish woman",
-    "Why Aisha (la) poisoned the Prophet (saws) and not the Jewish woman",
-    "Why Aisha (la) poisoned the Prophet (saws) and not the Jewish woman",
-    "Why Aisha (la) poisoned the Prophet (saws) and not the Jewish woman",
-    "Why Aisha (la) poisoned the Prophet (saws) and not the Jewish woman",
-  ],
-  isPopular = false,
-}) => {
+const SmallCardList = ({ data = [], isPopular = false }) => {
   return (
     <SmallCardListWrapper isPopular={isPopular}>
-      {list.map((item, index) => (
-        <SmallCard isPopular={isPopular} item={item} index={index} />
+      {data.map((item, index) => (
+        <SmallCard
+          key={item.id}
+          isPopular={isPopular}
+          item={item}
+          index={index}
+        />
       ))}
     </SmallCardListWrapper>
   );

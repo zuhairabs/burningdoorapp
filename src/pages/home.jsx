@@ -1,5 +1,5 @@
-import React from "react";
-import { Link, Page } from "framework7-react";
+import React, { useEffect } from "react";
+import { Link, Page, useStore } from "framework7-react";
 import Header from "../components/common/Header";
 import SmallCardList from "../components/list/SmallCardList";
 import BlogList from "../components/list/BlogList";
@@ -8,6 +8,8 @@ import styled from "styled-components";
 import { FiTrendingUp } from "react-icons/fi";
 import CategoryList from "../components/list/CategoryList";
 import BookBanner from "../components/banner/BookBanner";
+import store from "../js/store";
+import { isEmpty } from "lodash";
 
 const SearchWrapper = styled.div`
   width: 100%;
@@ -40,42 +42,58 @@ const AllLink = styled(Link)`
 
 const iconColor = "#f28a10";
 
-const HomePage = ({ f7router }) => (
-  <Page name="home">
-    <Header />
-    <SearchWrapper onClick={() => f7router.navigate("/search/")}>
-      <SearchInput disabled value={""} setValue={() => {}} />
-    </SearchWrapper>
-    <TitleWrapper>
-      <Text>Saved</Text>
-      <AllLink transition="f7-push" noLinkClass href="/bookmarks/">
-        See All
-      </AllLink>
-    </TitleWrapper>
-    <SmallCardList />
-    <BookBanner />
-    <TitleWrapper>
-      <Text>Popular</Text>
-      <AllLink transition="f7-push" noLinkClass href="/popular/">
-        See All
-      </AllLink>
-    </TitleWrapper>
-    <SmallCardList isPopular />
-    <TitleWrapper>
-      <Text>Categories</Text>
-      <AllLink transition="f7-push" noLinkClass href="/categories/">
-        See All
-      </AllLink>
-    </TitleWrapper>
-    {/* Page content */}
-    <CategoryList />
-    <TitleWrapper>
-      <Text>
-        {" "}
-        <FiTrendingUp color={iconColor} /> Recents
-      </Text>
-    </TitleWrapper>
-    <BlogList />
-  </Page>
-);
+const HomePage = ({ f7router }) => {
+  const isLoading = useStore("isLoading");
+  const recentBlogs = useStore("getRecentBlogs");
+  const topTenBlogs = useStore("getTopTenBlogs");
+  const bookmarks = useStore("getBookmarks");
+  const categories = useStore("getCategories");
+
+  useEffect(() => {
+    store.dispatch("getRecentBlogs");
+    store.dispatch("getTopTenBlogs");
+    store.dispatch("getCategories");
+    store.dispatch("getAppDetails");
+  }, []);
+
+  return (
+    <Page name="home">
+      <Header />
+      <SearchWrapper onClick={() => f7router.navigate("/search/")}>
+        <SearchInput disabled value={""} setValue={() => {}} />
+      </SearchWrapper>
+      {!isEmpty(bookmarks) && (
+        <TitleWrapper>
+          <Text>Saved</Text>
+          <AllLink transition="f7-push" noLinkClass href="/bookmarks/">
+            See All
+          </AllLink>
+        </TitleWrapper>
+      )}
+      {!isEmpty(bookmarks) && <SmallCardList data={bookmarks} />}
+      <BookBanner />
+      <TitleWrapper>
+        <Text>Popular</Text>
+        <AllLink transition="f7-push" noLinkClass href="/popular/">
+          See All
+        </AllLink>
+      </TitleWrapper>
+      <SmallCardList data={topTenBlogs} isPopular />
+      <TitleWrapper>
+        <Text>Categories</Text>
+        <AllLink transition="f7-push" noLinkClass href="/categories/">
+          See All
+        </AllLink>
+      </TitleWrapper>
+      <CategoryList data={categories.filter((_, index) => index <= 10)} />
+      <TitleWrapper>
+        <Text>
+          {" "}
+          <FiTrendingUp color={iconColor} /> Recents
+        </Text>
+      </TitleWrapper>
+      {isLoading ? "Loading" : <BlogList data={recentBlogs} />}
+    </Page>
+  );
+};
 export default HomePage;

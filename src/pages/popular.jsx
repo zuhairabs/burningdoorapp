@@ -1,5 +1,5 @@
 import React from "react";
-import { Page } from "framework7-react";
+import { Page, useStore } from "framework7-react";
 import styled from "styled-components";
 import BlogList from "../components/list/BlogList";
 import BackButton from "../components/common/BackButton";
@@ -17,6 +17,9 @@ const ListWrapper = styled.div`
   z-index: 2;
 `;
 const PopularPage = ({ f7router }) => {
+  const isLoading = useStore("isLoading");
+  const topTenBlogs = useStore("getTopTenBlogs");
+
   return (
     <Page name="popular">
       <Fixed>
@@ -24,7 +27,11 @@ const PopularPage = ({ f7router }) => {
         <PageTitle title={"Popular"} />
       </Fixed>
       <ListWrapper>
-        <BlogList listPadding="5rem 0" />
+        {isLoading ? (
+          "Loading"
+        ) : (
+          <BlogList data={topTenBlogs} listPadding="5rem 0" />
+        )}
       </ListWrapper>
     </Page>
   );

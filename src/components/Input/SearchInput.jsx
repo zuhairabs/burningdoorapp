@@ -5,7 +5,7 @@ import styled from "styled-components";
 const SearchInputWrapper = styled.div`
   background: #eee;
   padding: 1rem;
-  margin: 1rem auto;
+  margin: 0 auto;
   width: 76%;
   border: transparent;
   border-radius: 30px;

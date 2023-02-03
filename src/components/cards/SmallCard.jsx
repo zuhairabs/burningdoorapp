@@ -2,6 +2,7 @@ import { Link } from "framework7-react";
 import { truncate } from "lodash";
 import React from "react";
 import styled from "styled-components";
+import { getLink } from "../../lib/utlis";
 
 const Wrapper = styled(Link)`
   display: flex;
@@ -9,16 +10,27 @@ const Wrapper = styled(Link)`
   align-items: center;
   gap: 0.5rem;
   background: white;
-  min-width: 150px;
+  min-width: 170px;
   height: 150px;
   border-radius: 18px;
   box-shadow: 0px 5px 20px 0px rgb(69 67 96 / 10%);
   position: relative;
+  margin-left: ${({ isPopular }) => (isPopular ? "4rem" : "0.8rem")};
+
+  &:last-child {
+    margin-left: ${({ isPopular }) => (isPopular ? "7rem" : "0.8rem")};
+  }
 
   ${({ isPopular }) =>
     isPopular &&
     `&:first-child {
     margin-left: 4rem;
+  }`}
+
+  ${({ isPopular }) =>
+    isPopular &&
+    `&:last-child::before {
+      left: -5.5rem;
   }`}
 
   ${({ isPopular, index }) =>
@@ -46,7 +58,8 @@ const ImageWrapper = styled.div`
   height: 120px;
   margin-top: -2rem;
   background: #dddddd;
-  background-image: url("https://theburningdoor.com/assets/img/instagram/6.jpg");
+  background-image: url(${({ src }) =>
+    src ? src : "https://theburningdoor.com/assets/img/instagram/6.jpg"});
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -69,11 +82,11 @@ const SmallCard = ({ isPopular, item, index }) => {
       isPopular={isPopular}
       index={index}
       noLinkClass
-      transition="f7-dive"
+      transition="f7-parallax"
       href="/blog/1"
     >
-      <ImageWrapper />
-      <Title>{truncate(item, { length: 36 })}</Title>
+      <ImageWrapper src={getLink(item.photo)} />
+      <Title>{truncate(item.title, { length: 36 })}</Title>
     </Wrapper>
   );
 };
