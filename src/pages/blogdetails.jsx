@@ -1,4 +1,4 @@
-import { Page, Sheet, f7 } from "framework7-react";
+import { Page, Sheet, f7, useStore } from "framework7-react";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import BackButton from "../components/blog/BackButton";
@@ -24,6 +24,25 @@ const Header = styled.div`
   z-index: 10;
   padding-top: 1.5rem;
   padding-bottom: 1rem;
+
+  &::after {
+    content: "";
+    background: rgb(255, 255, 255);
+    background: linear-gradient(
+      180deg,
+      rgba(${({ shade }) => (shade ? shade : "247, 247, 247")}, 1) 10%,
+      rgba(
+          ${({ shade }) => (shade ? shade : "247, 247, 247")},
+          0.7667436489607391
+        )
+        58%,
+      rgba(${({ shade }) => (shade ? shade : "247, 247, 247")}, 0) 100%
+    );
+    height: 45px;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+  }
 `;
 
 const ContentWrapper = styled.div`
@@ -33,6 +52,7 @@ const ContentWrapper = styled.div`
 
 const BlogDetailsPage = ({ f7router }) => {
   const store = f7.store;
+  const blog = useStore("getSingleBlog");
   const [theme, setTheme] = useState(null);
   const [size, setSize] = useState(null);
   const [style, setStyle] = useState(null);
@@ -46,6 +66,7 @@ const BlogDetailsPage = ({ f7router }) => {
       lightBg: curTheme?.lightBg,
       lightColor: curTheme?.lightColor,
       quoteColor: curTheme?.quoteColor,
+      shadeColor: curTheme?.shadeColor,
     };
   };
 
@@ -75,12 +96,16 @@ const BlogDetailsPage = ({ f7router }) => {
       name="about-more"
     >
       <Wrapper bg={getTheme().bg}>
-        <Header bg={getTheme().bg}>
+        <Header shade={getTheme().shadeColor} bg={getTheme().bg}>
           <BackButton theme={getTheme()} title="Back" router={f7router} />
           <BlogControlsButton theme={getTheme()} />
         </Header>
         <ContentWrapper>
           <BlogContent
+            contentMargin="0"
+            title={blog.title}
+            content={blog.content}
+            subtitle={blog.category_name}
             style={getStyle()}
             fontSize={size?.value}
             theme={getTheme()}

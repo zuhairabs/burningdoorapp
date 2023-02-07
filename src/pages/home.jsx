@@ -10,6 +10,10 @@ import CategoryList from "../components/list/CategoryList";
 import BookBanner from "../components/banner/BookBanner";
 import store from "../js/store";
 import { isEmpty } from "lodash";
+import BlogCardLoader from "../components/loading/BlogCardLoader";
+import CategoryListLoader from "../components/loading/CategoryListLoader";
+import SmallCardLoader from "../components/loading/SmallCardLoader";
+import BottomTabs from "../components/Tabs/BottomTabs";
 
 const SearchWrapper = styled.div`
   width: 100%;
@@ -59,6 +63,7 @@ const HomePage = ({ f7router }) => {
   return (
     <Page name="home">
       <Header />
+      <BottomTabs router={f7router} />
       <SearchWrapper onClick={() => f7router.navigate("/search/")}>
         <SearchInput disabled value={""} setValue={() => {}} />
       </SearchWrapper>
@@ -78,21 +83,29 @@ const HomePage = ({ f7router }) => {
           See All
         </AllLink>
       </TitleWrapper>
-      <SmallCardList data={topTenBlogs} isPopular />
+      {isLoading ? (
+        <SmallCardLoader isPopular />
+      ) : (
+        <SmallCardList data={topTenBlogs} isPopular />
+      )}
       <TitleWrapper>
         <Text>Categories</Text>
         <AllLink transition="f7-push" noLinkClass href="/categories/">
           See All
         </AllLink>
       </TitleWrapper>
-      <CategoryList data={categories.filter((_, index) => index <= 10)} />
+      {isLoading ? (
+        <CategoryListLoader />
+      ) : (
+        <CategoryList data={categories.filter((_, index) => index <= 10)} />
+      )}
       <TitleWrapper>
         <Text>
           {" "}
           <FiTrendingUp color={iconColor} /> Recents
         </Text>
       </TitleWrapper>
-      {isLoading ? "Loading" : <BlogList data={recentBlogs} />}
+      {isLoading ? <BlogCardLoader /> : <BlogList data={recentBlogs} />}
     </Page>
   );
 };

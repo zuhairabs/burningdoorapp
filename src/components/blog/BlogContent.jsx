@@ -22,7 +22,7 @@ const Title = styled.h1`
 `;
 
 const Content = styled.div`
-  margin-top: -1.5rem;
+  margin-top: ${({ contentMargin }) => contentMargin};
   font-weight: 600;
   font-size: ${({ size }) => (size ? `${size}px` : "15px")};
   color: ${({ color }) => (color ? color : "rgb(90, 90, 90)")};
@@ -41,6 +41,26 @@ const Content = styled.div`
   .chapter-title-decoration-above,
   .chapter-title-corner-decorations {
     display: none;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+
+  iframe {
+    width: 100%;
+    height: 100%;
+  }
+
+  video {
+    width: 100%;
+    height: 100%;
+  }
+
+  p > span {
+    font-size: ${({ size }) =>
+      size ? `${size}px !important` : "15px !important"};
   }
 
   a {
@@ -82,12 +102,14 @@ const BlogContent = ({
   subtitle = "About",
   content = appDetails.description,
   noTitle = false,
+  contentMargin = "-1.5rem",
 }) => {
   return (
     <Wrapper>
       <Subtitle>{subtitle}</Subtitle>
       {!noTitle && <Title color={theme.color}>{title}</Title>}
       <Content
+        contentMargin={contentMargin}
         fontFamily={style}
         size={fontSize}
         bg={theme.bg}

@@ -1,14 +1,13 @@
 import React, { useCallback, useEffect } from "react";
 import { Link, Page } from "framework7-react";
-import SearchInput from "../components/Input/SearchInput";
 import styled from "styled-components";
 import { BsArrowLeft, BsFiles, BsFillPenFill } from "react-icons/bs";
 import { capitalize, isEmpty, truncate } from "lodash";
 import { BOOK_TOC, getTitle } from "../constants/kitab_titles";
 import { BOOK_CONTENT } from "../constants/kitab_content";
-import StarBG from "../assets/star_bg.png";
 import BookImg from "../assets/kitab.jpg";
 import NoItemGif from "../assets/no-item-found.gif";
+import { CgSearch } from "react-icons/cg";
 
 const PageWrapper = styled.div`
   margin: 1rem;
@@ -22,6 +21,7 @@ const HeaderWrapper = styled.div`
   top: 0;
   background: #fff;
   z-index: 10;
+  padding-bottom: 1rem;
 `;
 
 const BookCover = styled.div`
@@ -37,6 +37,8 @@ const BookCover = styled.div`
 
 const LeftArrow = styled(BsArrowLeft)`
   margin: 0 1rem;
+  padding-top: 1rem;
+  color: #000;
 `;
 
 const BookDetails = styled.h2`
@@ -44,26 +46,13 @@ const BookDetails = styled.h2`
   align-items: flex-start;
   padding: 1rem 0 1rem 1rem;
   border-radius: 10px;
+  margin: 1rem 1rem;
 
   position: sticky;
   top: 85px;
-  background: #eee;
+  background: #ffffb6;
+  border: 2px solid #000;
   z-index: 10;
-
-  &::after {
-    content: "";
-    background: rgb(255, 255, 255);
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 1) 10%,
-      rgba(255, 255, 255, 0.7667436489607391) 58%,
-      rgba(255, 255, 255, 0) 100%
-    );
-    height: 45px;
-    position: absolute;
-    top: 100%;
-    width: 100%;
-  }
 `;
 
 const Title = styled.h2`
@@ -87,7 +76,8 @@ const TitleWrapper = styled.div`
     margin-bottom: 1rem;
     margin-left: 1rem;
     font-size: small;
-    color: #666;
+    color: #000;
+    font-weight: 600;
   }
 `;
 
@@ -95,7 +85,7 @@ const Author = styled.p`
   display: flex;
   align-items: center;
   font-weight: 500;
-  color: #7d7d7d;
+  color: #000;
   font-size: 0.8rem;
   margin: -0.5rem 1rem;
 `;
@@ -111,49 +101,65 @@ const Divider = styled.div`
 `;
 
 const List = styled.div`
+  position: fixed;
   display: flex;
   flex-direction: column;
   margin: 0 1rem;
-  padding: ${({ padding }) => (padding ? padding : "2rem 0")};
+  padding: 0 2rem;
+  border: 4px solid #000;
+  border-radius: 10px;
+  height: calc(100vh - 290px);
+  overflow-y: scroll;
+  background: #fff;
 `;
 
 const Item = styled(Link)`
   display: flex;
   align-items: center;
   margin-bottom: 1rem;
-  background: #eee;
-  padding: 1rem 1.5rem;
-  border-radius: 10px;
+  background: #fff;
+  padding: 1rem 0.2rem;
+  border-bottom: 2px solid #000;
 `;
 
 const Numbers = styled.div`
-  width: 70px;
-  height: 65px;
-  background: #eee;
-  /* background-image: linear-gradient(45deg, #f28a10, #ffeeda); */
-  background: url(${StarBG});
-  background-size: contain;
-  background-repeat: no-repeat;
+  width: 20px;
+  height: 20px;
+  background: #000;
   border-radius: 5px;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0.5rem;
+  border-radius: 50%;
+  margin-right: 1rem;
 
   span {
-    color: #212121;
-    font-size: 1.5rem;
-    font-weight: 500;
+    color: #fff;
+    font-size: 24px;
+    font-weight: 900;
     margin-left: -5px;
+    text-shadow: rgb(0 0 0) 3px 0px 0px, rgb(0 0 0) 2.83487px 0.981584px 0px,
+      rgb(0 0 0) 2.35766px 1.85511px 0px, rgb(0 0 0) 1.62091px 2.52441px 0px,
+      rgb(0 0 0) 0.705713px 2.91581px 0px, rgb(0 0 0) -0.287171px 2.98622px 0px,
+      rgb(0 0 0) -1.24844px 2.72789px 0px, rgb(0 0 0) -2.07227px 2.16926px 0px,
+      rgb(0 0 0) -2.66798px 1.37182px 0px, rgb(0 0 0) -2.96998px 0.42336px 0px,
+      rgb(0 0 0) -2.94502px -0.571704px 0px,
+      rgb(0 0 0) -2.59586px -1.50383px 0px, rgb(0 0 0) -1.96093px -2.27041px 0px,
+      rgb(0 0 0) -1.11013px -2.78704px 0px,
+      rgb(0 0 0) -0.137119px -2.99686px 0px,
+      rgb(0 0 0) 0.850987px -2.87677px 0px, rgb(0 0 0) 1.74541px -2.43999px 0px,
+      rgb(0 0 0) 2.44769px -1.73459px 0px, rgb(0 0 0) 2.88051px -0.838247px 0px;
   }
 `;
 
 const Text = styled.div`
-  color: #333;
-  font-weight: 600;
+  color: #000;
+  font-weight: 800;
   font-size: 0.9rem;
   margin-left: 5px;
-  width: 200px;
+  width: 100%;
 `;
 
 const Img = styled.img`
@@ -180,22 +186,50 @@ const ImgWrapper = styled.div`
 `;
 
 const SearchTitle = styled.div`
-  margin: 1.5rem 0.5rem;
-  font-weight: 600;
+  margin: 1.5rem 1rem;
+  font-weight: 800;
   font-size: 1rem;
+  color: #000;
+`;
+
+const SearchInputWrapper = styled.div`
+  background: #fff;
+  padding: 1rem;
+  margin: 1rem auto 0 auto;
+  width: 70%;
+  border-color: #000;
+  border-style: solid;
+  border-top-width: 2px;
+  border-bottom-width: 5px;
+  border-left-width: 2px;
+  border-right-width: 2px;
+  border-radius: 30px;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+
+  > input {
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    color: #000;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 800;
+    margin-left: 1rem;
+  }
+
+  > input::placeholder {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    color: #000;
+  }
 `;
 
 const KitabPage = ({ f7router }) => {
   const [searchValue, setSearchValue] = React.useState("");
   const [isSearching, setIsSearching] = React.useState(false);
-  const [searchedArray, setSearchedArray] = React.useState([]);
   const [searchedContentArray, setSearchedContentArray] = React.useState([]);
-
-  const getSearchedList = useCallback(() => {
-    return BOOK_TOC.filter((item) =>
-      item.title.toLowerCase().includes(searchValue.toLowerCase())
-    );
-  }, [searchValue]);
 
   const getSearchedContentList = useCallback(() => {
     return BOOK_CONTENT.filter((item) =>
@@ -206,9 +240,7 @@ const KitabPage = ({ f7router }) => {
   useEffect(() => {
     if (searchValue.length > 0) {
       setIsSearching(true);
-      const filteredTitles = getSearchedList();
       const filteredContents = getSearchedContentList();
-      setSearchedArray(filteredTitles);
       setSearchedContentArray(filteredContents);
     } else {
       setIsSearching(false);
@@ -216,100 +248,91 @@ const KitabPage = ({ f7router }) => {
   }, [searchValue]);
 
   return (
-    <Page name="kitab">
+    <Page style={{ background: "#fff0de" }} name="kitab">
       <HeaderWrapper>
-        <LeftArrow onClick={() => f7router.back()} size={18} />
-        <SearchInput
-          placeholder="Search this book..."
-          value={searchValue}
-          setValue={setSearchValue}
+        <LeftArrow
+          strokeWidth={2}
+          onClick={() => f7router.navigate("/", { transition: "f7-dive" })}
+          size={22}
         />
+        <SearchInputWrapper>
+          <CgSearch color="#000" strokeWidth={2} size={22} />
+          <input
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            placeholder="Search this book..."
+          />
+        </SearchInputWrapper>
       </HeaderWrapper>
-      <PageWrapper>
-        <BookDetails>
-          <BookCover />
-          <TitleWrapper>
-            <Title>Book of Sulaym Ibn Qays</Title>
-            <p>Oldest Shia hadith collection</p>
-            <div style={{ display: "flex" }}>
-              <Author>
-                <BsFillPenFill style={{ marginRight: "0.5rem" }} />
-                Sulaym Ibn Qays
-              </Author>
-              <SubTitle>
-                <BsFiles style={{ marginRight: "0.5rem" }} /> 530
-              </SubTitle>
-            </div>
-          </TitleWrapper>
-        </BookDetails>
-        <Divider />
-        <SearchTitle>Table of Contents</SearchTitle>
-        {isSearching ? (
-          <>
-            {isEmpty(searchedArray) && isEmpty(searchedContentArray) && (
-              <ImgWrapper>
-                <Img src={NoItemGif} alt="no-item" />
-                <p>Not found!</p>
-              </ImgWrapper>
-            )}
-            <List padding="0">
-              {searchedArray.map((item) => (
-                <Item
-                  noLinkClass
-                  transition="f7-parallax"
-                  href={`/kitab/${item.id}`}
-                  key={item.id}
-                >
-                  <Numbers>
-                    <span>{item.id}</span>
-                  </Numbers>
-                  <Text>
-                    {capitalize(truncate(item.title, { length: 40 }))}
-                  </Text>
-                </Item>
-              ))}
-            </List>
-            {searchedContentArray.length !== 0 && (
-              <SearchTitle>Inside Book</SearchTitle>
-            )}
-            <List padding="0">
-              {searchedContentArray.map((item) => (
-                <Item
-                  noLinkClass
-                  transition="f7-parallax"
-                  href={`/kitab/${item.page_no}`}
-                  key={item.page_no}
-                >
-                  <Numbers>
-                    <span>{item.page_no}</span>
-                  </Numbers>
-                  <Text>
-                    {capitalize(
-                      truncate(getTitle(item.page_no).title, { length: 40 })
-                    )}
-                  </Text>
-                </Item>
-              ))}
-            </List>
-          </>
-        ) : (
-          <List padding="0">
-            {BOOK_TOC.map((item) => (
-              <Item
-                noLinkClass
-                transition="f7-parallax"
-                href={`/kitab/${item.id}`}
-                key={item.id}
-              >
-                <Numbers>
-                  <span>{item.id}</span>
-                </Numbers>
-                <Text>{capitalize(truncate(item.title, { length: 40 }))}</Text>
-              </Item>
-            ))}
-          </List>
-        )}
-      </PageWrapper>
+      {/* <PageWrapper> */}
+      <BookDetails>
+        <BookCover />
+        <TitleWrapper>
+          <Title>Book of Sulaym Ibn Qays</Title>
+          <p>Oldest Shia hadith collection</p>
+          <div style={{ display: "flex" }}>
+            <Author>
+              <BsFillPenFill style={{ marginRight: "0.5rem" }} />
+              Sulaym Ibn Qays
+            </Author>
+            <SubTitle>
+              <BsFiles strokeWidth={2} style={{ marginRight: "0.5rem" }} /> 530
+            </SubTitle>
+          </div>
+        </TitleWrapper>
+      </BookDetails>
+      {/* <Divider /> */}
+      {isSearching ? (
+        <>
+          {isEmpty(searchedContentArray) ? (
+            <ImgWrapper>
+              <Img src={NoItemGif} alt="no-item" />
+              <p>Not found!</p>
+            </ImgWrapper>
+          ) : (
+            <>
+              <List>
+                {searchedContentArray.map((item) => (
+                  <Item
+                    noLinkClass
+                    transition="f7-parallax"
+                    href={`/kitab/${item.page_no}`}
+                    key={item.page_no}
+                  >
+                    <Numbers>
+                      <span>
+                        {item.page_no < 10 ? `0${item.page_no}` : item.page_no}
+                      </span>
+                    </Numbers>
+                    <Text>
+                      {capitalize(
+                        truncate(getTitle(item.page_no).title, { length: 60 })
+                      )}
+                    </Text>
+                  </Item>
+                ))}
+              </List>
+            </>
+          )}
+        </>
+      ) : (
+        <List>
+          {BOOK_TOC.map((item) => (
+            <Item
+              noLinkClass
+              transition="f7-parallax"
+              href={`/kitab/${item.id}`}
+              key={item.id}
+            >
+              <Numbers>
+                <span>{item.id < 10 ? `0${item.id}` : item.id}</span>
+              </Numbers>
+              <Text>{capitalize(truncate(item.title, { length: 60 }))}</Text>
+            </Item>
+          ))}
+        </List>
+      )}
+      {/* </PageWrapper> */}
     </Page>
   );
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Link, Page, useStore } from "framework7-react";
 import styled from "styled-components";
 import { BsArrowLeft } from "react-icons/bs";
@@ -6,6 +6,7 @@ import { BsGlobe } from "react-icons/bs";
 import { FiShare } from "react-icons/fi";
 import { shareData } from "../constants/about";
 import AboutLogo from "../assets/logo_large.jpg";
+import Toast from "../components/Toast/Toast";
 
 const Wrapper = styled.div`
   min-height: ${window.innerHeight / 2.2}px;
@@ -143,14 +144,21 @@ const LeftArrow = styled(BsArrowLeft)`
 `;
 
 const AboutPage = ({ f7router }) => {
+  const [showToast, setShowToast] = useState(false);
+
   const shareApp = async () => {
     if (window.navigator.share) {
       window.navigator.share(shareData);
     } else {
-      // TODO: Change alert to snackbar
-      alert("Your device do not support native share");
+      setShowToast(true);
     }
   };
+
+  useEffect(() => {
+    if (showToast) {
+      setTimeout(() => setShowToast(false), 3000);
+    }
+  }, [showToast]);
 
   const appDetails = useStore("getAppDetails");
 
@@ -188,6 +196,10 @@ const AboutPage = ({ f7router }) => {
           </StyledButton>
         </ContentWrapper>
       </MainWrapper>
+      <Toast
+        showToast={showToast}
+        text="Your device do not support native share"
+      />
     </Page>
   );
 };

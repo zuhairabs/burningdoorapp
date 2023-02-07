@@ -24,10 +24,16 @@ var routes = [
   {
     path: "/bookmarks",
     component: BookmarkPage,
+    options: {
+      transition: "f7-parallax",
+    },
   },
   {
     path: "/about",
     component: AboutPage,
+    options: {
+      transition: "f7-parallax",
+    },
   },
   {
     path: "/about-more",
@@ -56,6 +62,9 @@ var routes = [
   {
     path: "/kitab",
     component: KitabPage,
+    options: {
+      transition: "f7-dive",
+    },
   },
   {
     path: "/kitab/:id",

@@ -14,25 +14,23 @@ const CategoryListPill = styled(Link)`
   color: #4d4d4d;
   font-weight: 600;
   border-radius: 25px;
-  padding: 0.5rem 1rem;
+  padding: 0.8rem 2rem;
   font-size: 0.8rem;
 `;
 
-const CategoryList = ({ data = [] }) => {
+const CategoryListLoader = ({}) => {
   return (
     <CategoryListWrapper>
-      {data.map((item) => (
+      {[1, 2, 3, 4, 5, 6, 7].map((item) => (
         <CategoryListPill
           transition="f7-parallax"
           noLinkClass
           href={`/category/${item.id}`}
           key={item.id}
-        >
-          {item.name}
-        </CategoryListPill>
+        />
       ))}
     </CategoryListWrapper>
   );
 };
 
-export default CategoryList;
+export default CategoryListLoader;

@@ -7,9 +7,10 @@ import BlogList from "../components/list/BlogList";
 import BackButton from "../components/common/BackButton";
 import PageTitle from "../components/Text/PageTitle";
 import store from "../js/store";
+import BlogCardLoader from "../components/loading/BlogCardLoader";
 
 const Text = styled.div`
-  margin: 1rem 1rem 1.5rem 2rem;
+  margin: 2rem 1rem 1.5rem 2rem;
   font-size: 16px;
   font-weight: 600;
   color: #666;
@@ -47,6 +48,21 @@ const HeaderWrapper = styled.div`
   z-index: 10;
   padding-bottom: 10px;
   padding-top: 5px;
+
+  &::after {
+    content: "";
+    background: rgb(255, 255, 255);
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 1) 10%,
+      rgba(255, 255, 255, 0.7667436489607391) 58%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    height: 45px;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+  }
 `;
 
 const SearchPage = ({ f7router }) => {
@@ -97,7 +113,7 @@ const SearchPage = ({ f7router }) => {
             </ListItem>
           ))}
           <Text>Popular</Text>
-          {isLoading ? "Loading" : <BlogList data={topTenBlogs} />}
+          {isLoading ? <BlogCardLoader /> : <BlogList data={topTenBlogs} />}
         </>
       )}
     </Page>

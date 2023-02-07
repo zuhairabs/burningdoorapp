@@ -24,6 +24,25 @@ const Header = styled.div`
   z-index: 10;
   padding-top: 1.5rem;
   padding-bottom: 1rem;
+
+  &::after {
+    content: "";
+    background: rgb(255, 255, 255);
+    background: linear-gradient(
+      180deg,
+      rgba(${({ shade }) => (shade ? shade : "247, 247, 247")}, 1) 10%,
+      rgba(
+          ${({ shade }) => (shade ? shade : "247, 247, 247")},
+          0.7667436489607391
+        )
+        58%,
+      rgba(${({ shade }) => (shade ? shade : "247, 247, 247")}, 0) 100%
+    );
+    height: 45px;
+    position: absolute;
+    top: 100%;
+    width: 100%;
+  }
 `;
 
 const ContentWrapper = styled.div`
@@ -46,6 +65,7 @@ const AboutMorePage = ({ f7router }) => {
       lightBg: curTheme?.lightBg,
       lightColor: curTheme?.lightColor,
       quoteColor: curTheme?.quoteColor,
+      shadeColor: curTheme?.shadeColor,
     };
   };
 
@@ -75,7 +95,7 @@ const AboutMorePage = ({ f7router }) => {
       name="about-more"
     >
       <Wrapper bg={getTheme().bg}>
-        <Header bg={getTheme().bg}>
+        <Header shade={getTheme().shadeColor} bg={getTheme().bg}>
           <BackButton theme={getTheme()} title="About" router={f7router} />
           <BlogControlsButton theme={getTheme()} />
         </Header>

@@ -1,12 +1,14 @@
 import { Page, Sheet, f7 } from "framework7-react";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import BackButton from "../components/blog/BackButton";
 import BlogContent from "../components/blog/BlogContent";
 import BlogControls from "../components/blog/BlogControls";
-import BlogControlsButton from "../components/blog/BlogControlsButton";
 import { getTitle } from "../constants/kitab_titles";
 import { getBookContent } from "../constants/kitab_content";
+import BlogControlsAltButton from "../components/blog/BlogControlsAlt";
+import NotesModal from "../components/Modal/NotesModal";
+import NavButton from "../components/blog/NavButton";
+import Toast from "../components/Toast/Toast";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -52,12 +54,26 @@ const ContentWrapper = styled.div`
   padding-bottom: 3rem;
 `;
 
+const NavbButtons = styled.div`
+  position: fixed;
+  bottom: 2rem;
+  width: 100%;
+  background: transparent;
+  display: flex;
+  justify-content: space-around;
+  transition: all 0.3s ease-in-out;
+  opacity: ${({ opacity }) => (opacity ? opacity : "0")};
+`;
+
 const KitabSinglePage = ({ f7router, id }) => {
   const store = f7.store;
   const [theme, setTheme] = useState(null);
   const [size, setSize] = useState(null);
   const [style, setStyle] = useState(null);
   const [refetch, setRefetch] = useState(null);
+  const [contentText, setContentText] = useState(null);
+  const [showNavButtons, setShowNavButtons] = useState(null);
+  const [showToast, setShowToast] = useState(false);
 
   const getTheme = () => {
     const curTheme = theme?.options.filter((item) => item.isSelected)[0];
@@ -94,6 +110,42 @@ const KitabSinglePage = ({ f7router, id }) => {
   const title = getTitle(parseInt(id));
   const page = getBookContent(parseInt(id));
 
+  const handleShare = () => {
+    const shareData = {
+      title: title.title,
+      text: contentText,
+      url: `https://theburningdoor.com/book/${page.page_no}`,
+    };
+    console.log({ shareData });
+    if (window.navigator.share) {
+      window.navigator.share();
+    } else {
+      setShowToast(true);
+    }
+  };
+
+  useEffect(() => {
+    if (document) {
+      setContentText(document.querySelector(".html-content").innerText);
+    }
+
+    const body = document.querySelector("body");
+    body.addEventListener("click", (e) => {
+      if (!e.target.classList.value.includes("nav-buttons")) {
+        setShowNavButtons((prev) => !prev);
+      }
+    });
+    return () => {
+      body.removeEventListener("click", setShowNavButtons(false));
+    };
+  }, [document]);
+
+  useEffect(() => {
+    if (showToast) {
+      setTimeout(() => setShowToast(false), 3000);
+    }
+  }, [showToast]);
+
   return (
     <Page
       style={{ background: getTheme().bg ? getTheme().bg : "#f7f7f7" }}
@@ -101,8 +153,17 @@ const KitabSinglePage = ({ f7router, id }) => {
     >
       <Wrapper bg={getTheme().bg}>
         <Header shade={getTheme().shadeColor} bg={getTheme().bg}>
-          <BackButton theme={getTheme()} title="Chapters" router={f7router} />
-          <BlogControlsButton theme={getTheme()} />
+          <NavButton
+            isBackArrow
+            theme={getTheme()}
+            title="Chapters"
+            handleClick={() =>
+              f7router.navigate("/kitab/", {
+                transition: "f7-parallax",
+              })
+            }
+          />
+          <BlogControlsAltButton handleShare={handleShare} theme={getTheme()} />
         </Header>
         <ContentWrapper>
           <BlogContent
@@ -114,7 +175,37 @@ const KitabSinglePage = ({ f7router, id }) => {
             theme={getTheme()}
           />
         </ContentWrapper>
+        <NavbButtons opacity={showNavButtons ? "1" : "0"}>
+          <NavButton
+            disabled={page.page_no === 1}
+            isBackArrow
+            theme={getTheme()}
+            title="Prev"
+            handleClick={() =>
+              f7router.navigate(`/kitab/${page.page_no - 1}`, {
+                transition: "f7-parallax",
+              })
+            }
+          />
+          <NavButton
+            disabled={page.page_no === 530}
+            isNextArrow
+            theme={getTheme()}
+            title="Next"
+            handleClick={() =>
+              f7router.navigate(`/kitab/${page.page_no + 1}`, {
+                transition: "f7-parallax",
+              })
+            }
+          />
+        </NavbButtons>
       </Wrapper>
+
+      <div
+        className="html-content"
+        dangerouslySetInnerHTML={{ __html: page.content }}
+        hidden
+      />
       <Sheet
         className="demo-sheet-swipe-to-close"
         style={{ height: "auto", "--f7-sheet-bg-color": "#fff" }}
@@ -122,7 +213,12 @@ const KitabSinglePage = ({ f7router, id }) => {
         backdrop
       >
         <BlogControls setRefetch={setRefetch} />
+        <NotesModal id={page.page_no} content={contentText} />
       </Sheet>
+      <Toast
+        showToast={showToast}
+        text="Your device do not support native share"
+      />
     </Page>
   );
 };

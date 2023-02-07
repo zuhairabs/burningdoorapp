@@ -1,11 +1,7 @@
-import { Link } from "framework7-react";
-import { truncate } from "lodash";
 import React from "react";
 import styled from "styled-components";
-import { getLink } from "../../lib/utlis";
-import Placeholder from "../../assets/placeholder.jpg";
 
-const Wrapper = styled(Link)`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -37,7 +33,7 @@ const Wrapper = styled(Link)`
   ${({ isPopular, index }) =>
     isPopular &&
     `&::before {
-    content: "${index + 1}";
+    content: "${index}";
     position: absolute;
     top: -1.5rem;
     left: -2.5rem;
@@ -59,10 +55,6 @@ const ImageWrapper = styled.div`
   height: 120px;
   margin-top: -2rem;
   background: #dddddd;
-  background-image: url(${({ src }) => (src ? src : Placeholder)});
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
   border-radius: 15px;
   border: 3px solid white;
   box-shadow: 0px 5px 20px 0px rgb(69 67 96 / 10%);
@@ -71,24 +63,37 @@ const ImageWrapper = styled.div`
 const Title = styled.div`
   font-weight: 600;
   font-size: 12px;
-  padding: 0 0.5rem;
   text-align: center;
   color: #2d2d2d;
+  background: #eee;
+  padding: 0.5rem 3rem;
+  border-radius: 10px;
 `;
 
-const SmallCard = ({ isPopular, item, index }) => {
+const SmallCardListWrapper = styled.div`
+  display: flex;
+  /* gap: ${({ isPopular }) => (isPopular ? "4rem" : "0.8rem")}; */
+  width: 85%;
+  margin-top: 1rem;
+  overflow-y: scroll;
+  padding: 2rem 1rem 1rem 1rem;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const SmallCardLoader = ({ isPopular }) => {
   return (
-    <Wrapper
-      isPopular={isPopular}
-      index={index}
-      noLinkClass
-      transition="f7-parallax"
-      href={`/blog/${item.id}`}
-    >
-      <ImageWrapper src={getLink(item.photo)} />
-      <Title>{truncate(item.title, { length: 36 })}</Title>
-    </Wrapper>
+    <SmallCardListWrapper isPopular>
+      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
+        <Wrapper key={item} isPopular={isPopular} index={item}>
+          <ImageWrapper src={""} />
+          <Title />
+        </Wrapper>
+      ))}
+    </SmallCardListWrapper>
   );
 };
 
-export default SmallCard;
+export default SmallCardLoader;

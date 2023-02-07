@@ -1,10 +1,7 @@
-import { truncate } from "lodash";
 import React from "react";
 import styled from "styled-components";
 import { CgTime, CgEye } from "react-icons/cg";
-import { Link } from "framework7-react";
-import { getLink, readingTime } from "../../lib/utlis";
-import Placeholder from "../../assets/placeholder.jpg";
+import { BiBookmarkAlt } from "react-icons/bi";
 
 const Wrapper = styled.div`
   display: flex;
@@ -13,7 +10,7 @@ const Wrapper = styled.div`
   padding: 1.2rem 1rem;
 `;
 
-const BlogCardWrapper = styled(Link)`
+const BlogCardWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: flex-end;
@@ -38,18 +35,16 @@ const Image = styled.div`
   height: 100%;
   border-radius: 10px;
   background: #dddddd;
-  background-image: url(${({ src }) => (src ? src : Placeholder)});
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
 `;
 
 const Title = styled.div`
   font-weight: 600;
   font-size: 13px;
-  padding-top: 0.8rem;
-  padding-left: 0.2rem;
   color: #2d2d2d;
+  background: #eee;
+  border-radius: 10px;
+  padding: 0.9rem;
+  margin-top: 1rem;
 `;
 
 const TitleWrapper = styled.div`
@@ -58,7 +53,7 @@ const TitleWrapper = styled.div`
 `;
 
 const Badge = styled.span`
-  padding: 0.3rem 0.6rem;
+  padding: 0.3rem 3rem;
   background: #ffe8ce;
   font-size: 0.8rem;
   border-radius: 10px;
@@ -82,35 +77,51 @@ const Minutes = styled.div`
   font-weight: 500;
 `;
 
+const Bookmark = styled(BiBookmarkAlt)`
+  position: absolute;
+  top: 1.8rem;
+  right: 1.8rem;
+  z-index: 9;
+  color: #ababab;
+`;
+
+const SmallBox = styled.div`
+  background: #eee;
+  padding: 0.4rem 1.5rem;
+  border-radius: 10px;
+`;
+
 const ViewCount = styled(Minutes)``;
 
-const BlogCard = ({ item }) => {
+const BlogCardLoader = () => {
   return (
-    <Wrapper>
-      <BlogCardWrapper
-        noLinkClass
-        transition="f7-parallax"
-        href={`/blog/${item.id}`}
-      >
-        <ImageWrapper>
-          <Image src={getLink(item.photo)} />
-        </ImageWrapper>
-        <TitleWrapper>
-          <Badge>{item.category_name}</Badge>
-          <Title>{truncate(item.title, { length: 45 })}</Title>
-          <InfoWrapper>
-            <Minutes>
-              <CgTime size={20} />
-              {readingTime(item.content)} minutes
-            </Minutes>
-            <ViewCount>
-              <CgEye size={18} /> {item.count}
-            </ViewCount>
-          </InfoWrapper>
-        </TitleWrapper>
-      </BlogCardWrapper>
-    </Wrapper>
+    <>
+      {[1, 2, 3, 4, 5].map((item) => (
+        <Wrapper key={item}>
+          <BlogCardWrapper>
+            <ImageWrapper>
+              <Image src={""} />
+            </ImageWrapper>
+            <TitleWrapper>
+              <Badge />
+              <Title />
+              <InfoWrapper>
+                <Minutes>
+                  <CgTime size={20} />
+                  <SmallBox />
+                </Minutes>
+                <ViewCount>
+                  <CgEye size={18} />
+                  <SmallBox />
+                </ViewCount>
+              </InfoWrapper>
+            </TitleWrapper>
+          </BlogCardWrapper>
+          <Bookmark size={26} />
+        </Wrapper>
+      ))}
+    </>
   );
 };
 
-export default BlogCard;
+export default BlogCardLoader;

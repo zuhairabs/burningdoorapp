@@ -74,9 +74,11 @@ const store = createStore({
     recentBlogs: [],
     topTenBlogs: [],
     bookmarks: [],
+    notes: [],
     categories: [],
     categoryBlogs: [],
     searchedBlogs: [],
+    singleBlog: {},
     appDetails: {},
     loading: false,
   },
@@ -111,6 +113,12 @@ const store = createStore({
     getAppDetails({ state }) {
       return state.appDetails;
     },
+    getSingleBlog({ state }) {
+      return state.singleBlog;
+    },
+    getNotes({ state }) {
+      return state.notes;
+    },
   },
   actions: {
     updateSize({ state }, value) {
@@ -129,6 +137,19 @@ const store = createStore({
     },
     setBookmarks({ state }, blog) {
       state.bookmarks = [...state.bookmarks, blog];
+    },
+    removeBookmarks({ state }, blog) {
+      const updatedBookmarks = state.bookmarks.filter(
+        (mark) => mark.id !== blog.id
+      );
+      state.bookmarks = updatedBookmarks;
+    },
+    setNotes({ state }, note) {
+      state.notes = [...state.notes, note];
+    },
+    removeNotes({ state }, note) {
+      const updatedNotes = state.notes.filter((n) => n.id !== note.id);
+      state.notes = updatedNotes;
     },
     async getAllBlogs({ state, dispatch }) {
       dispatch("setIsLoading", true);
@@ -168,6 +189,13 @@ const store = createStore({
     async getSearchedBlogs({ state }, searchInput) {
       const data = await fetcher(`/search/${searchInput}`, () => {});
       state.searchedBlogs = data;
+    },
+    async getSingleBlog({ state, dispatch }, id) {
+      dispatch("setIsLoading", true);
+      const data = await fetcher(`/blog/${id}`, () => {
+        dispatch("setIsLoading", false);
+      });
+      state.singleBlog = data[0];
     },
     async getAppDetails({ state }) {
       const data = await fetcher("/details", () => {});
