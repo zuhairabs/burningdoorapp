@@ -53,6 +53,7 @@ const NotesPage = ({ f7router }) => {
       </Fixed>
       <ListWrapper>
         <NotesList
+          noItemTitle="No Notes"
           setShowToast={setShowToast}
           setToastMessage={setToastMessage}
           data={notes}

@@ -92,7 +92,11 @@ const SearchPage = ({ f7router }) => {
       </HeaderWrapper>
       {searchValue.length > 0 ? (
         <>
-          <BlogList data={searchedBlogs} />
+          <BlogList
+            noItemFontSize="1.5rem"
+            noItemTitle="Try again with diferent keyword"
+            data={searchedBlogs}
+          />
         </>
       ) : (
         <>

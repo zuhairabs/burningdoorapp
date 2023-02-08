@@ -42,7 +42,11 @@ const BookmarkPage = ({ f7router }) => {
         <PageTitle title={"Saved"} />
       </Fixed>
       <ListWrapper>
-        <BlogList data={bookmarks} listPadding="5rem 0" />
+        <BlogList
+          noItemTitle="No Bookmarks"
+          data={bookmarks}
+          listPadding="5rem 0"
+        />
       </ListWrapper>
     </Page>
   );
