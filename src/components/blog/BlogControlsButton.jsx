@@ -23,7 +23,7 @@ const BlogControlsButton = ({ theme }) => {
       bg={theme.lightBg}
       color={theme.color}
       noLinkClass
-      sheetOpen=".demo-sheet-swipe-to-close"
+      sheetOpen=".blog-controls-sheet"
     >
       Aa <BsThreeDotsVertical />
     </Wrapper>

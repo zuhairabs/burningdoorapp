@@ -166,6 +166,7 @@ const BookmarkFillIcon = styled(IoBookmark)`
 
 const SingleBlogPage = ({ f7router, id }) => {
   const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState(null);
   const isLoading = useStore("isLoading");
   const bookmarks = useStore("getBookmarks");
   const blog = useStore("getSingleBlog");
@@ -183,14 +184,19 @@ const SingleBlogPage = ({ f7router, id }) => {
     if (window.navigator.share) {
       window.navigator.share(shareData);
     } else {
+      setToastMessage();
       setShowToast(true);
     }
   };
 
   const bookmarkBlog = () => {
     if (isBookmarked().marked) {
+      setToastMessage("Removed from bookmarks");
+      setShowToast(true);
       store.dispatch("removeBookmarks", blog);
     } else {
+      setToastMessage("Added to bookmarks");
+      setShowToast(true);
       store.dispatch("setBookmarks", blog);
     }
   };
@@ -273,10 +279,7 @@ const SingleBlogPage = ({ f7router, id }) => {
           </StyledButton>
         </ContentWrapper>
       </MainWrapper>
-      <Toast
-        showToast={showToast}
-        text="Your device do not support native share"
-      />
+      <Toast showToast={showToast} text={toastMessage} />
     </Page>
   );
 };

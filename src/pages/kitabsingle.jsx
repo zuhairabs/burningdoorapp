@@ -74,6 +74,7 @@ const KitabSinglePage = ({ f7router, id }) => {
   const [contentText, setContentText] = useState(null);
   const [showNavButtons, setShowNavButtons] = useState(null);
   const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState(false);
 
   const getTheme = () => {
     const curTheme = theme?.options.filter((item) => item.isSelected)[0];
@@ -120,6 +121,7 @@ const KitabSinglePage = ({ f7router, id }) => {
     if (window.navigator.share) {
       window.navigator.share();
     } else {
+      setToastMessage("Your device do not support native share");
       setShowToast(true);
     }
   };
@@ -163,7 +165,11 @@ const KitabSinglePage = ({ f7router, id }) => {
               })
             }
           />
-          <BlogControlsAltButton handleShare={handleShare} theme={getTheme()} />
+          <BlogControlsAltButton
+            popupClass={`.add-note-popup-${page.page_no}`}
+            handleShare={handleShare}
+            theme={getTheme()}
+          />
         </Header>
         <ContentWrapper>
           <BlogContent
@@ -207,18 +213,21 @@ const KitabSinglePage = ({ f7router, id }) => {
         hidden
       />
       <Sheet
-        className="demo-sheet-swipe-to-close"
+        className="blog-controls-sheet"
         style={{ height: "auto", "--f7-sheet-bg-color": "#fff" }}
         swipeToClose
         backdrop
       >
         <BlogControls setRefetch={setRefetch} />
-        <NotesModal id={page.page_no} content={contentText} />
       </Sheet>
-      <Toast
-        showToast={showToast}
-        text="Your device do not support native share"
+      <NotesModal
+        setShowToast={setShowToast}
+        setToastMessage={setToastMessage}
+        popupClass={`add-note-popup-${page.page_no}`}
+        id={page.page_no}
+        content={contentText}
       />
+      <Toast showToast={showToast} text={toastMessage} />
     </Page>
   );
 };

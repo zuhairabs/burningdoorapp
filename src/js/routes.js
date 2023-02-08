@@ -11,6 +11,7 @@ import SingleBlogPage from "../pages/singleblog.jsx";
 import BlogDetailsPage from "../pages/blogdetails.jsx";
 import KitabPage from "../pages/kitab.jsx";
 import KitabSinglePage from "../pages/kitabsingle.jsx";
+import NotesPage from "../pages/notes.jsx";
 
 var routes = [
   {
@@ -69,6 +70,13 @@ var routes = [
   {
     path: "/kitab/:id",
     component: KitabSinglePage,
+  },
+  {
+    path: "/notes",
+    component: NotesPage,
+    options: {
+      transition: "f7-parallax",
+    },
   },
   {
     path: "/settings",

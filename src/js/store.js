@@ -147,8 +147,13 @@ const store = createStore({
     setNotes({ state }, note) {
       state.notes = [...state.notes, note];
     },
-    removeNotes({ state }, note) {
-      const updatedNotes = state.notes.filter((n) => n.id !== note.id);
+    removeNote({ state }, id) {
+      const updatedNotes = state.notes.filter((note) => note.id !== id);
+      state.notes = updatedNotes;
+    },
+    editNote({ state }, note) {
+      const index = state.notes.findIndex((n) => n.id === note.id);
+      const updatedNotes = state.notes.splice(index, 1, note);
       state.notes = updatedNotes;
     },
     async getAllBlogs({ state, dispatch }) {

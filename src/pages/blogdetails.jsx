@@ -113,7 +113,7 @@ const BlogDetailsPage = ({ f7router }) => {
         </ContentWrapper>
       </Wrapper>
       <Sheet
-        className="demo-sheet-swipe-to-close"
+        className="blog-controls-sheet"
         style={{ height: "auto", "--f7-sheet-bg-color": "#fff" }}
         swipeToClose
         backdrop

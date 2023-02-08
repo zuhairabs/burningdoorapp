@@ -50,7 +50,6 @@ const HomePage = ({ f7router }) => {
   const isLoading = useStore("isLoading");
   const recentBlogs = useStore("getRecentBlogs");
   const topTenBlogs = useStore("getTopTenBlogs");
-  const bookmarks = useStore("getBookmarks");
   const categories = useStore("getCategories");
 
   useEffect(() => {
@@ -67,15 +66,6 @@ const HomePage = ({ f7router }) => {
       <SearchWrapper onClick={() => f7router.navigate("/search/")}>
         <SearchInput disabled value={""} setValue={() => {}} />
       </SearchWrapper>
-      {!isEmpty(bookmarks) && (
-        <TitleWrapper>
-          <Text>Saved</Text>
-          <AllLink transition="f7-push" noLinkClass href="/bookmarks/">
-            See All
-          </AllLink>
-        </TitleWrapper>
-      )}
-      {!isEmpty(bookmarks) && <SmallCardList data={bookmarks} />}
       <BookBanner />
       <TitleWrapper>
         <Text>Popular</Text>
