@@ -10,8 +10,8 @@ const CategoryListWrapper = styled.div`
 `;
 
 const CategoryListPill = styled(Link)`
-  background: #eee;
-  color: #4d4d4d;
+  background: ${({ theme }) => theme.pill};
+  color: ${({ theme }) => theme.pillText};
   font-weight: 600;
   border-radius: 25px;
   padding: 0.5rem 1rem;

@@ -7,7 +7,7 @@ import { BsBookmarkStar, BsInfoCircle, BsStickies } from "react-icons/bs";
 const Tabs = styled.div`
   position: fixed;
   bottom: 0;
-  background: #fff;
+  background: ${({ theme }) => theme.tabMain};
   padding: 0.5rem 0.2rem;
   width: 100%;
   z-index: 99;
@@ -21,8 +21,8 @@ const TabWrapper = styled.div`
 `;
 
 const TabItem = styled.div`
-  background: ${({ isActive }) => (isActive ? "#eee" : "#fff")};
-  color: ${({ isActive }) => (isActive ? "#f28a10" : "#868686")};
+  background: ${({ theme }) => theme.tabIconBg};
+  color: ${({ theme }) => theme.tabIcon};
   padding: 0.8rem 1rem;
   border-radius: 8px;
   display: flex;

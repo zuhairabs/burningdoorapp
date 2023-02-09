@@ -7,18 +7,18 @@ import PageTitle from "../components/Text/PageTitle";
 
 const Fixed = styled.div`
   width: 100%;
-  background: white;
+  background: ${({ theme }) => theme.primary};
   position: fixed;
   z-index: 4;
 
   &::after {
     content: "";
-    background: rgb(255, 255, 255);
+    background: rgb(${({ theme }) => theme.shade});
     background: linear-gradient(
       180deg,
-      rgba(255, 255, 255, 1) 10%,
-      rgba(255, 255, 255, 0.7667436489607391) 58%,
-      rgba(255, 255, 255, 0) 100%
+      rgba(${({ theme }) => theme.shade}, 1) 10%,
+      rgba(${({ theme }) => theme.shade}, 0.7667436489607391) 58%,
+      rgba(${({ theme }) => theme.shade}, 0) 100%
     );
     height: 45px;
     position: absolute;
@@ -32,11 +32,15 @@ const ListWrapper = styled.div`
   z-index: 2;
 `;
 
+const StyledPage = styled(Page)`
+  background-color: ${({ theme }) => theme.primary};
+`;
+
 const BookmarkPage = ({ f7router }) => {
   const bookmarks = useStore("getBookmarks");
 
   return (
-    <Page name="bookmark">
+    <StyledPage name="bookmark">
       <Fixed>
         <BackButton router={f7router} />
         <PageTitle title={"Saved"} />
@@ -48,7 +52,7 @@ const BookmarkPage = ({ f7router }) => {
           listPadding="5rem 0"
         />
       </ListWrapper>
-    </Page>
+    </StyledPage>
   );
 };
 export default BookmarkPage;

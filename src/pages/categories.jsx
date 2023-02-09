@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link, Page, useStore } from "framework7-react";
 import styled from "styled-components";
 import BackButton from "../components/common/BackButton";
 import PageTitle from "../components/Text/PageTitle";
-import store from "../js/store";
 
 const CategoryWrapper = styled.div`
   display: flex;
@@ -18,8 +17,7 @@ const Category = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #eee;
-  background: #dddddd;
+  background: ${({ theme }) => theme.cardImage};
   background-image: url("https://theburningdoor.com/assets/img/instagram/2.jpg");
   background-repeat: no-repeat;
   background-position: center;
@@ -51,18 +49,18 @@ const Category = styled(Link)`
 
 const Fixed = styled.div`
   width: 100%;
-  background: white;
+  background: ${({ theme }) => theme.primary};
   position: fixed;
   z-index: 4;
 
   &::after {
     content: "";
-    background: rgb(255, 255, 255);
+    background: rgb(${({ theme }) => theme.shade});
     background: linear-gradient(
       180deg,
-      rgba(255, 255, 255, 1) 10%,
-      rgba(255, 255, 255, 0.7667436489607391) 58%,
-      rgba(255, 255, 255, 0) 100%
+      rgba(${({ theme }) => theme.shade}, 1) 10%,
+      rgba(${({ theme }) => theme.shade}, 0.7667436489607391) 58%,
+      rgba(${({ theme }) => theme.shade}, 0) 100%
     );
     height: 45px;
     position: absolute;
@@ -77,12 +75,15 @@ const ListWrapper = styled.div`
 `;
 
 const Loader = styled.div`
-  background: #eee;
+  background: ${({ theme }) => theme.pill};
   width: 90%;
   height: 150px;
   margin: auto;
   margin-top: 1rem;
   border-radius: 10px;
+`;
+const StyledPage = styled(Page)`
+  background-color: ${({ theme }) => theme.primary};
 `;
 
 const CategoriesPage = ({ f7router }) => {
@@ -90,7 +91,7 @@ const CategoriesPage = ({ f7router }) => {
   const categories = useStore("getCategories");
 
   return (
-    <Page name="categories">
+    <StyledPage name="categories">
       <Fixed>
         <BackButton router={f7router} />
         <PageTitle title={"Categories"} />
@@ -117,7 +118,7 @@ const CategoriesPage = ({ f7router }) => {
           </CategoryWrapper>
         )}
       </ListWrapper>
-    </Page>
+    </StyledPage>
   );
 };
 export default CategoriesPage;

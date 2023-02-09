@@ -117,3 +117,7 @@ body {
   position: absolute;
   right: 7px;
 }
+
+.page {
+  transition: background 0.3s ease-in-out;
+}

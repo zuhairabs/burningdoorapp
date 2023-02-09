@@ -5,15 +5,17 @@ import cordovaApp from "../js/cordova-app";
 
 import routes from "../js/routes";
 import store from "../js/store";
+import { DarkThemeProvider } from "../context/ThemeContext";
+import ThemeWrapper from "./Theme/ThemeWrapper";
 
 const MyApp = () => {
   const device = getDevice();
   // Framework7 Parameters
   const f7params = {
     name: "The Burning Door", // App name
-    theme: "auto", // Automatic theme detection
+    theme: "aurora", // Automatic theme detection
 
-    id: "io.framework7.myapp", // App bundle ID
+    id: "com.theburningdoor.app", // App bundle ID
     // App store
     store: store,
     // App routes
@@ -45,10 +47,14 @@ const MyApp = () => {
   });
 
   return (
-    <App {...f7params}>
-      {/* Your main view, should have "view-main" class */}
-      <View main className="safe-areas" url="/" />
-    </App>
+    <DarkThemeProvider>
+      <App {...f7params}>
+        <ThemeWrapper>
+          {/* Your main view, should have "view-main" class */}
+          <View main className="safe-areas" url="/" />
+        </ThemeWrapper>
+      </App>
+    </DarkThemeProvider>
   );
 };
 export default MyApp;

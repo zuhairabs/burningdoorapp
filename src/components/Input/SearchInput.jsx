@@ -3,7 +3,7 @@ import { CgSearch } from "react-icons/cg";
 import styled from "styled-components";
 
 const SearchInputWrapper = styled.div`
-  background: #eee;
+  background: ${({ theme }) => theme.searchBg};
   padding: 1rem;
   margin: 0 auto;
   width: 76%;
@@ -18,7 +18,7 @@ const SearchInputWrapper = styled.div`
     border: none;
     background: transparent;
     font-size: 16px;
-    color: black;
+    color: ${({ theme }) => theme.inputColor};
     font-family: "Montserrat", sans-serif;
     font-weight: 500;
   }
@@ -27,8 +27,12 @@ const SearchInputWrapper = styled.div`
     font-family: "Montserrat", sans-serif;
     font-weight: 500;
     font-size: 14px;
-    color: #adadad;
+    color: ${({ theme }) => theme.searchPlaceholder};
   }
+`;
+
+const SearchIcon = styled(CgSearch)`
+  color: ${({ theme }) => theme.searchIcon};
 `;
 
 const SearchInput = ({
@@ -45,7 +49,7 @@ const SearchInput = ({
 
   return (
     <SearchInputWrapper>
-      <CgSearch color="#adadad" size={22} />
+      <SearchIcon size={22} />
       <input
         disabled={disabled}
         ref={inputRef}

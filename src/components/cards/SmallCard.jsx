@@ -10,7 +10,7 @@ const Wrapper = styled(Link)`
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  background: white;
+  background: ${({ theme }) => theme.card};
   min-width: 170px;
   height: 150px;
   border-radius: 18px;
@@ -58,13 +58,13 @@ const ImageWrapper = styled.div`
   width: 80%;
   height: 120px;
   margin-top: -2rem;
-  background: #dddddd;
+  background: ${({ theme }) => theme.cardImage};
   background-image: url(${({ src }) => (src ? src : Placeholder)});
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   border-radius: 15px;
-  border: 3px solid white;
+  border: 3px solid ${({ theme }) => theme.cardImage};
   box-shadow: 0px 5px 20px 0px rgb(69 67 96 / 10%);
 `;
 
@@ -73,7 +73,7 @@ const Title = styled.div`
   font-size: 12px;
   padding: 0 0.5rem;
   text-align: center;
-  color: #2d2d2d;
+  color: ${({ theme }) => theme.textCard};
 `;
 
 const SmallCard = ({ isPopular, item, index }) => {

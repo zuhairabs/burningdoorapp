@@ -39,9 +39,10 @@ const Logo = styled.div`
 `;
 
 const SettingsIcon = styled(FiSettings)`
-  background: #eee;
+  background: ${({ theme }) => theme.settingsIconBg};
   padding: 0.5rem;
   border-radius: 30px;
+  color: ${({ theme }) => theme.settingsIcon};
 `;
 
 const Header = () => (
@@ -52,7 +53,7 @@ const Header = () => (
       </Link>
     </HeaderLeft>
     <HeaderRight noLinkClass transition="f7-parallax" href="/settings/">
-      <SettingsIcon color="#4d4d4d" size={24} />
+      <SettingsIcon size={24} />
     </HeaderRight>
   </HeaderWrapper>
 );

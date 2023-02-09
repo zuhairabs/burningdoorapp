@@ -24,7 +24,7 @@ const Wrapper = styled.div`
 const ImageWrapper = styled.div`
   position: relative;
   min-height: 50%;
-  background: #212121;
+  background: ${({ theme }) => theme.aboutImage};
   background-image: url(${AboutLogo});
   background-repeat: no-repeat;
   background-size: 400% 200%;
@@ -43,28 +43,16 @@ const Image = styled.div`
   background-size: 210% 110%;
   background-position: 47%;
   z-index: 9;
-  border: 4px solid white;
+  border: 4px solid #fff;
 `;
 
 const ContentWrapper = styled.div`
   position: relative;
-  background: white;
+  background: ${({ theme }) => theme.primary};
   max-width: 100%;
   min-height: ${window.innerHeight / 2.3}px;
   max-height: 50%;
   padding: 0 1.5rem 0 1.5rem;
-
-  @media (prefers-color-scheme: dark) {
-    &::after {
-      background: rgb(0, 0, 0);
-      background: linear-gradient(
-        0deg,
-        rgba(0, 0, 0, 1) 10%,
-        rgba(0, 0, 0, 0.7667436489607391) 58%,
-        rgba(0, 0, 0, 0) 100%
-      );
-    }
-  }
 
   &::after {
     content: "";
@@ -73,12 +61,12 @@ const ContentWrapper = styled.div`
     position: absolute;
     bottom: 0;
     left: 0;
-    background: rgb(255, 255, 255);
+    background: rgb(${({ theme }) => theme.shade});
     background: linear-gradient(
       0deg,
-      rgba(255, 255, 255, 1) 10%,
-      rgba(255, 255, 255, 0.7667436489607391) 58%,
-      rgba(255, 255, 255, 0) 100%
+      rgba(${({ theme }) => theme.shade}, 1) 10%,
+      rgba(${({ theme }) => theme.shade}, 0.7667436489607391) 58%,
+      rgba(${({ theme }) => theme.shade}, 0) 100%
     );
     z-index: 4;
   }
@@ -87,13 +75,14 @@ const ContentWrapper = styled.div`
 const Text = styled.p`
   font-weight: 500;
   font-size: 0.9rem;
-  color: #7d7d7d;
+  color: ${({ theme }) => theme.seeMore};
   text-align: justify;
 `;
 
 const Title = styled.h1`
   font-size: 1.5rem;
   font-weight: 700;
+  color: ${({ theme }) => theme.textPrimary};
 `;
 
 const MainWrapper = styled.div`
@@ -106,12 +95,12 @@ const Pill = styled(Link)`
   align-items: center;
   gap: 0.5rem;
   width: max-content;
-  background: #eee;
+  background: ${({ theme }) => theme.pill};
   border-radius: 30px;
   padding: 0.5rem 1rem;
   font-size: 0.8rem;
   font-weight: 600;
-  color: #7d7d7d;
+  color: ${({ theme }) => theme.pillText};
   margin-bottom: 0.5rem;
 `;
 
@@ -143,6 +132,10 @@ const LeftArrow = styled(BsArrowLeft)`
   border-radius: 50%;
 `;
 
+const StyledPage = styled(Page)`
+  background-color: ${({ theme }) => theme.primary};
+`;
+
 const AboutPage = ({ f7router }) => {
   const [showToast, setShowToast] = useState(false);
 
@@ -163,7 +156,7 @@ const AboutPage = ({ f7router }) => {
   const appDetails = useStore("getAppDetails");
 
   return (
-    <Page name="about">
+    <StyledPage name="about">
       <MainWrapper>
         <ImageWrapper>
           <Wrapper>
@@ -200,7 +193,7 @@ const AboutPage = ({ f7router }) => {
         showToast={showToast}
         text="Your device do not support native share"
       />
-    </Page>
+    </StyledPage>
   );
 };
 export default AboutPage;

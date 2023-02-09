@@ -8,9 +8,9 @@ const Wrapper = styled.div`
   gap: 8px;
   font-size: 12px;
   font-weight: 500;
-  color: #7d7d7d;
+  color: ${({ theme }) => theme.seeMore};
   margin: 1.5rem 1rem 0.5rem 1rem;
-  background: #eee;
+  background: ${({ theme }) => theme.pill};
   padding: 0.5rem 1rem;
   width: max-content;
   border-radius: 30px;

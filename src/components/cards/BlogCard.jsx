@@ -20,10 +20,10 @@ const BlogCardWrapper = styled(Link)`
   gap: 1rem;
   width: 96%;
   height: 120px;
-  background: white;
+  background: ${({ theme }) => theme.card};
   box-shadow: 0px 5px 20px 0px rgb(69 67 96 / 10%);
   border-radius: 10px;
-  border: 5px solid white;
+  border: 5px solid ${({ theme }) => theme.card};
 `;
 
 const ImageWrapper = styled.div`
@@ -37,7 +37,7 @@ const Image = styled.div`
   width: 100%;
   height: 100%;
   border-radius: 10px;
-  background: #dddddd;
+  background: ${({ theme }) => theme.cardImage};
   background-image: url(${({ src }) => (src ? src : Placeholder)});
   background-repeat: no-repeat;
   background-size: cover;
@@ -49,7 +49,7 @@ const Title = styled.div`
   font-size: 13px;
   padding-top: 0.8rem;
   padding-left: 0.2rem;
-  color: #2d2d2d;
+  color: ${({ theme }) => theme.textCard};
 `;
 
 const TitleWrapper = styled.div`
@@ -77,7 +77,7 @@ const Minutes = styled.div`
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 0;
-  color: #9d9d9d;
+  color: ${({ theme }) => theme.textCardLight};
   font-size: 0.7rem;
   font-weight: 500;
 `;

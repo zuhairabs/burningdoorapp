@@ -30,7 +30,7 @@ const NoDataWrapper = styled.div`
   span {
     font-weight: 900;
     font-size: 2.5rem;
-    color: #ddd;
+    color: ${({ theme }) => theme.cardImage};
   }
 `;
 

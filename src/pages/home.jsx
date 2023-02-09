@@ -9,7 +9,6 @@ import { FiTrendingUp } from "react-icons/fi";
 import CategoryList from "../components/list/CategoryList";
 import BookBanner from "../components/banner/BookBanner";
 import store from "../js/store";
-import { isEmpty } from "lodash";
 import BlogCardLoader from "../components/loading/BlogCardLoader";
 import CategoryListLoader from "../components/loading/CategoryListLoader";
 import SmallCardLoader from "../components/loading/SmallCardLoader";
@@ -29,6 +28,7 @@ const Text = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  color: ${({ theme }) => theme.textPrimary};
 `;
 
 const TitleWrapper = styled.div`
@@ -41,7 +41,11 @@ const TitleWrapper = styled.div`
 const AllLink = styled(Link)`
   font-weight: 500;
   font-size: 15px;
-  color: #7d7d7d;
+  color: ${({ theme }) => theme.seeMore};
+`;
+
+const StyledPage = styled(Page)`
+  background-color: ${({ theme }) => theme.primary};
 `;
 
 const iconColor = "#f28a10";
@@ -60,7 +64,7 @@ const HomePage = ({ f7router }) => {
   }, []);
 
   return (
-    <Page name="home">
+    <StyledPage name="home">
       <Header />
       <BottomTabs router={f7router} />
       <SearchWrapper onClick={() => f7router.navigate("/search/")}>
@@ -96,7 +100,7 @@ const HomePage = ({ f7router }) => {
         </Text>
       </TitleWrapper>
       {isLoading ? <BlogCardLoader /> : <BlogList data={recentBlogs} />}
-    </Page>
+    </StyledPage>
   );
 };
 export default HomePage;

@@ -13,7 +13,7 @@ const Text = styled.div`
   margin: 2rem 1rem 1.5rem 2rem;
   font-size: 16px;
   font-weight: 600;
-  color: #666;
+  color: ${({ theme }) => theme.seeMore};
 `;
 
 const ListItem = styled.div`
@@ -23,11 +23,12 @@ const ListItem = styled.div`
   margin: 1rem 2rem;
   font-size: 18px;
   font-weight: 600;
+  color: ${({ theme }) => theme.textPrimary};
 `;
 
 const CategoryListPill = styled.div`
-  background: #eee;
-  color: #4d4d4d;
+  background: ${({ theme }) => theme.pill};
+  color: ${({ theme }) => theme.pillText};
   font-weight: 600;
   border-radius: 25px;
   padding: 0.5rem 1rem;
@@ -44,25 +45,29 @@ const CategoryListWrapper = styled.div`
 const HeaderWrapper = styled.div`
   position: sticky;
   top: 0;
-  background: white;
+  background: ${({ theme }) => theme.primary};
   z-index: 10;
   padding-bottom: 10px;
   padding-top: 5px;
 
   &::after {
     content: "";
-    background: rgb(255, 255, 255);
+    background: rgb(${({ theme }) => theme.shade});
     background: linear-gradient(
       180deg,
-      rgba(255, 255, 255, 1) 10%,
-      rgba(255, 255, 255, 0.7667436489607391) 58%,
-      rgba(255, 255, 255, 0) 100%
+      rgba(${({ theme }) => theme.shade}, 1) 10%,
+      rgba(${({ theme }) => theme.shade}, 0.7667436489607391) 58%,
+      rgba(${({ theme }) => theme.shade}, 0) 100%
     );
     height: 45px;
     position: absolute;
     top: 100%;
     width: 100%;
   }
+`;
+
+const StyledPage = styled(Page)`
+  background-color: ${({ theme }) => theme.primary};
 `;
 
 const SearchPage = ({ f7router }) => {
@@ -84,7 +89,7 @@ const SearchPage = ({ f7router }) => {
   }, [searchValue]);
 
   return (
-    <Page name="search">
+    <StyledPage name="search">
       <HeaderWrapper>
         <BackButton router={f7router} />
         <PageTitle title={"Search"} />
@@ -120,7 +125,7 @@ const SearchPage = ({ f7router }) => {
           {isLoading ? <BlogCardLoader /> : <BlogList data={topTenBlogs} />}
         </>
       )}
-    </Page>
+    </StyledPage>
   );
 };
 export default SearchPage;
