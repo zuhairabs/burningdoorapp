@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { FiHome } from "react-icons/fi";
 import { HiOutlineBookOpen } from "react-icons/hi";
 import { BsBookmarkStar, BsInfoCircle, BsStickies } from "react-icons/bs";
+import { Link } from "framework7-react";
 
 const Tabs = styled.div`
   position: fixed;
@@ -20,8 +21,8 @@ const TabWrapper = styled.div`
   align-items: center;
 `;
 
-const TabItem = styled.div`
-  background: ${({ theme }) => theme.tabIconBg};
+const TabItem = styled(Link)`
+  /* background: ${({ theme }) => theme.tabIconBg}; */
   color: ${({ theme }) => theme.tabIcon};
   padding: 0.8rem 1rem;
   border-radius: 8px;
@@ -127,9 +128,9 @@ const BottomTabs = ({ router }) => {
         {content.map((item) => (
           <Fragment key={item.id}>
             {item.id === 2 ? (
-              <BookIcon onClick={() => router.navigate(item.route)}>
-                {item.icon}
-              </BookIcon>
+              <Link onClick={() => router.navigate(item.route)}>
+                <BookIcon>{item.icon}</BookIcon>
+              </Link>
             ) : (
               <TabItem onClick={() => handleClick(item)} key={item.id}>
                 {item.icon}

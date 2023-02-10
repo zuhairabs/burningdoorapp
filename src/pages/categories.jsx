@@ -3,6 +3,7 @@ import { Link, Page, useStore } from "framework7-react";
 import styled from "styled-components";
 import BackButton from "../components/common/BackButton";
 import PageTitle from "../components/Text/PageTitle";
+import CategoryBg from "../assets/category_background.jpg";
 
 const CategoryWrapper = styled.div`
   display: flex;
@@ -18,7 +19,7 @@ const Category = styled(Link)`
   justify-content: center;
   align-items: center;
   background: ${({ theme }) => theme.cardImage};
-  background-image: url("https://theburningdoor.com/assets/img/instagram/2.jpg");
+  background-image: url(${CategoryBg});
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -107,7 +108,6 @@ const CategoriesPage = ({ f7router }) => {
           <CategoryWrapper>
             {categories.map((item) => (
               <Category
-                noLinkClass
                 transition="f7-parallax"
                 href={`/category/${item.id}`}
                 key={item.id}

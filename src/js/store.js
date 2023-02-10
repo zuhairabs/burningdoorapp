@@ -1,4 +1,5 @@
 import { createStore } from "framework7/lite";
+import { STORIES } from "../components/Stories/Stories";
 import { fetcher } from "../lib/utlis";
 
 const store = createStore({
@@ -78,8 +79,12 @@ const store = createStore({
     categories: [],
     categoryBlogs: [],
     searchedBlogs: [],
+    stories: STORIES,
+    currentStory: 0,
     singleBlog: {},
     appDetails: {},
+    hideBanner: false,
+    hideStory: false,
     loading: false,
   },
   getters: {
@@ -119,6 +124,18 @@ const store = createStore({
     getNotes({ state }) {
       return state.notes;
     },
+    getHideStory({ state }) {
+      return state.hideStory;
+    },
+    getHideBanner({ state }) {
+      return state.hideBanner;
+    },
+    getStories({ state }) {
+      return state.stories;
+    },
+    getCurrentStory({ state }) {
+      return state.currentStory;
+    },
   },
   actions: {
     updateSize({ state }, value) {
@@ -153,9 +170,25 @@ const store = createStore({
     },
     editNote({ state }, note) {
       const index = state.notes.findIndex((n) => n.id === note.id);
-      const updatedNotes = state.notes.splice(index, 1, note);
-      state.notes = updatedNotes;
+      state.notes[index] = note;
+      state.notes = [...state.notes];
     },
+    hideBanner({ state }, value) {
+      state.hideBanner = value;
+    },
+    hideStory({ state }, value) {
+      state.hideStory = value;
+    },
+    setCurrentStory({ state }, index) {
+      state.currentStory = index;
+    },
+    // async getStories({ state, dispatch }) {
+    //   dispatch("setIsLoading", true);
+    //   const data = await fetcher("/stories", () => {
+    //     dispatch("setIsLoading", false);
+    //   });
+    //   state.stories = data;
+    // },
     async getAllBlogs({ state, dispatch }) {
       dispatch("setIsLoading", true);
       const data = await fetcher("/blogs", () => {

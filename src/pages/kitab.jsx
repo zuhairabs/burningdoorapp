@@ -250,11 +250,9 @@ const KitabPage = ({ f7router }) => {
   return (
     <Page style={{ background: "#fff0de" }} name="kitab">
       <HeaderWrapper>
-        <LeftArrow
-          strokeWidth={2}
-          onClick={() => f7router.navigate("/", { transition: "f7-dive" })}
-          size={22}
-        />
+        <Link onClick={() => f7router.navigate("/", { transition: "f7-dive" })}>
+          <LeftArrow strokeWidth={2} size={22} />
+        </Link>
         <SearchInputWrapper>
           <CgSearch color="#000" strokeWidth={2} size={22} />
           <input
@@ -294,7 +292,6 @@ const KitabPage = ({ f7router }) => {
               <List>
                 {searchedContentArray.map((item) => (
                   <Item
-                    noLinkClass
                     transition="f7-parallax"
                     href={`/kitab/${item.page_no}`}
                     key={item.page_no}
@@ -319,7 +316,6 @@ const KitabPage = ({ f7router }) => {
         <List>
           {BOOK_TOC.map((item) => (
             <Item
-              noLinkClass
               transition="f7-parallax"
               href={`/kitab/${item.id}`}
               key={item.id}

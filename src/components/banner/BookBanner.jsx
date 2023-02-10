@@ -14,7 +14,7 @@ const Banner = styled.div`
   background: url(${BannerImg});
   background-size: cover;
   background-position: center;
-  margin: 2rem 1rem;
+  margin: 2rem 1rem 1rem 1rem;
   width: 90%;
   height: 150px;
   border-radius: 10px;
@@ -64,7 +64,7 @@ const Button = styled.div`
 
 const BookBanner = () => {
   return (
-    <Link noLinkClass transition="f7-dive" href="/kitab">
+    <Link style={{ width: "100%" }} transition="f7-dive" href="/kitab">
       <Banner>
         <TextWrapper>
           <h2>Book of Sulaym Ibn Qais</h2>

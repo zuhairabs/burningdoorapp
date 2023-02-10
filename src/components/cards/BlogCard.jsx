@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   position: relative;
-  padding: 1.2rem 1rem;
+  padding: 1.2rem 0 1.2rem 1rem;
 `;
 
 const BlogCardWrapper = styled(Link)`
@@ -30,7 +30,7 @@ const ImageWrapper = styled.div`
   width: 100px;
   height: 130px;
   margin-left: 0.5rem;
-  padding-bottom: 1rem;
+  padding-bottom: 0.5rem;
 `;
 
 const Image = styled.div`
@@ -87,11 +87,7 @@ const ViewCount = styled(Minutes)``;
 const BlogCard = ({ item }) => {
   return (
     <Wrapper>
-      <BlogCardWrapper
-        noLinkClass
-        transition="f7-parallax"
-        href={`/blog/${item.id}`}
-      >
+      <BlogCardWrapper transition="f7-parallax" href={`/blog/${item.id}`}>
         <ImageWrapper>
           <Image src={getLink(item.photo)} />
         </ImageWrapper>

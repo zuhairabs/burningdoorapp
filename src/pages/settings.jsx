@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Page, Toggle } from "framework7-react";
+import { Link, Page, Toggle, useStore } from "framework7-react";
 import styled from "styled-components";
 import BackButton from "../components/common/BackButton";
 import PageTitle from "../components/Text/PageTitle";
@@ -8,6 +8,7 @@ import { BiRectangle, BiDonateBlood } from "react-icons/bi";
 import { CgStories } from "react-icons/cg";
 import { useTheme } from "../context/ThemeContext";
 import QRCode from "../assets/qrcode.png";
+import store from "../js/store";
 
 const Fixed = styled.div`
   width: 100%;
@@ -158,19 +159,20 @@ const StyledPage = styled(Page)`
 
 const SettingsPage = ({ f7router }) => {
   const { isDarkTheme, setIsDarkTheme } = useTheme();
-  const [isHideBanner, setIsHideBanner] = useState();
-  const [isHideStories, setIsHideStories] = useState();
+  const hideBanner = useStore("getHideBanner");
+  const hideStory = useStore("getHideStory");
+  const appDetails = useStore("getAppDetails");
 
   const toggleTheme = () => {
     setIsDarkTheme((prev) => !prev);
   };
 
   const toggleBanner = () => {
-    setIsHideBanner((prev) => !prev);
+    store.dispatch("hideBanner", !hideBanner);
   };
 
   const toggleStories = () => {
-    setIsHideStories((prev) => !prev);
+    store.dispatch("hideStory", !hideStory);
   };
 
   return (
@@ -195,10 +197,7 @@ const SettingsPage = ({ f7router }) => {
               <BannerIcon />
             </IconWrapper>
             <Text>Hide Banner</Text>
-            <StyledToggle
-              checked={isHideBanner}
-              onToggleChange={toggleBanner}
-            />
+            <StyledToggle checked={hideBanner} onToggleChange={toggleBanner} />
           </Flex>
         </Flex>
         <Flex marginBottom="1rem" justifyContent="space-between">
@@ -207,14 +206,11 @@ const SettingsPage = ({ f7router }) => {
               <StoriesIcon />
             </IconWrapper>
             <Text>Hide Stories</Text>
-            <StyledToggle
-              checked={isHideStories}
-              onToggleChange={toggleStories}
-            />
+            <StyledToggle checked={hideStory} onToggleChange={toggleStories} />
           </Flex>
         </Flex>
         <LinkFlex
-          href="https://theburningdoor.com/contact.php"
+          href={appDetails.helpUrl}
           external
           marginBottom="1rem"
           justifyContent="space-between"
@@ -228,7 +224,7 @@ const SettingsPage = ({ f7router }) => {
           </Flex>
         </LinkFlex>
         <LinkFlex
-          href="https://theburningdoor.com/contribute.php"
+          href={appDetails.contributeUrl}
           external
           marginBottom="1rem"
           justifyContent="space-between"
@@ -245,10 +241,14 @@ const SettingsPage = ({ f7router }) => {
           <QRCodeImage src={QRCode} alt="qrcode" />
         </Flex>
         <Flex flexDirection="column" justifyContent="center">
-          <Version>The Burning Door v1.0.0</Version>
+          <Version>
+            {appDetails.name} v{appDetails.version}
+          </Version>
           <Managed>
-            Developed and Managed By{" "}
-            <StyledLink external>Shia Channel</StyledLink>
+            {appDetails.manageText}{" "}
+            <StyledLink href={appDetails.managedByUrl} external>
+              {appDetails.managedBy}
+            </StyledLink>
           </Managed>
         </Flex>
       </Wrapper>

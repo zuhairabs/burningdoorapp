@@ -160,26 +160,19 @@ const AboutPage = ({ f7router }) => {
       <MainWrapper>
         <ImageWrapper>
           <Wrapper>
-            <LeftArrow
-              onClick={() => f7router.back()}
-              color="white"
-              size={20}
-            />
+            <Link onClick={() => f7router.back()}>
+              <LeftArrow color="white" size={20} />
+            </Link>
           </Wrapper>
           <Image />
         </ImageWrapper>
         <ContentWrapper>
           <Title>{appDetails.name}</Title>
           <PillWrapper>
-            <Pill
-              noLinkClass
-              transition="f7-dive"
-              external
-              href={appDetails.url}
-            >
+            <Pill transition="f7-dive" external href={appDetails.url}>
               <BsGlobe size={15} /> {appDetails.tag}
             </Pill>
-            <Pill noLinkClass transition="f7-dive" href="" onClick={shareApp}>
+            <Pill transition="f7-dive" href="" onClick={shareApp}>
               <FiShare size={15} /> Share App
             </Pill>
           </PillWrapper>

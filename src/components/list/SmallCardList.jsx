@@ -5,7 +5,7 @@ import SmallCard from "../cards/SmallCard";
 const SmallCardListWrapper = styled.div`
   display: flex;
   /* gap: ${({ isPopular }) => (isPopular ? "4rem" : "0.8rem")}; */
-  width: 85%;
+  width: calc(100vw - 45px);
   margin-top: 1rem;
   overflow-y: scroll;
   padding: 2rem 1rem 1rem 1rem;

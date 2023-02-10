@@ -13,13 +13,14 @@ import BlogCardLoader from "../components/loading/BlogCardLoader";
 import CategoryListLoader from "../components/loading/CategoryListLoader";
 import SmallCardLoader from "../components/loading/SmallCardLoader";
 import BottomTabs from "../components/Tabs/BottomTabs";
+import Stories from "../components/Stories";
 
 const SearchWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 `;
 
 const Text = styled.div`
@@ -28,6 +29,7 @@ const Text = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  margin-top: 1rem;
   color: ${({ theme }) => theme.textPrimary};
 `;
 
@@ -55,12 +57,16 @@ const HomePage = ({ f7router }) => {
   const recentBlogs = useStore("getRecentBlogs");
   const topTenBlogs = useStore("getTopTenBlogs");
   const categories = useStore("getCategories");
+  const hideBanner = useStore("getHideBanner");
+  const hideStory = useStore("getHideStory");
+  const stories = useStore("getStories");
 
   useEffect(() => {
     store.dispatch("getRecentBlogs");
     store.dispatch("getTopTenBlogs");
     store.dispatch("getCategories");
     store.dispatch("getAppDetails");
+    // store.dispatch("getStories");
   }, []);
 
   return (
@@ -70,10 +76,11 @@ const HomePage = ({ f7router }) => {
       <SearchWrapper onClick={() => f7router.navigate("/search/")}>
         <SearchInput disabled value={""} setValue={() => {}} />
       </SearchWrapper>
-      <BookBanner />
+      {!hideStory && <Stories data={stories} />}
+      {!hideBanner && <BookBanner />}
       <TitleWrapper>
         <Text>Popular</Text>
-        <AllLink transition="f7-push" noLinkClass href="/popular/">
+        <AllLink transition="f7-push" href="/popular/">
           See All
         </AllLink>
       </TitleWrapper>
@@ -84,7 +91,7 @@ const HomePage = ({ f7router }) => {
       )}
       <TitleWrapper>
         <Text>Categories</Text>
-        <AllLink transition="f7-push" noLinkClass href="/categories/">
+        <AllLink transition="f7-push" href="/categories/">
           See All
         </AllLink>
       </TitleWrapper>

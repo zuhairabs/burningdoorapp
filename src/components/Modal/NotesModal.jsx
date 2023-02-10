@@ -77,7 +77,7 @@ const TextArea = styled.textarea`
   font-size: 16px;
   color: #000;
   font-family: "Montserrat", sans-serif;
-  font-weight: 800;
+  font-weight: 600;
   margin-left: 1rem;
   letter-spacing: 1px;
 
@@ -126,11 +126,13 @@ const NotesModal = ({
   useEffect(() => {
     if (!title) {
       setTitleInput(isEditing ? title : `My Note ${id}`);
+    } else {
+      setTitleInput(title);
     }
     if (content) {
       setContentInput(content);
     }
-  }, [content]);
+  }, [id]);
 
   const onSaveNote = () => {
     const data = {
@@ -139,27 +141,29 @@ const NotesModal = ({
       note: contentInput,
     };
     store.dispatch("setNotes", data);
-    setToastMessage("Note Saved Successully");
-    setShowToast(true);
+    setTitleInput("");
+    setContentInput("");
+    setToastMessage && setToastMessage("Note Saved Successully");
+    setShowToast && setShowToast(true);
     linkRef.current.el.click();
   };
 
   const onEditNote = () => {
     const data = {
-      id: Date.now(),
+      id,
       title: titleInput,
       note: contentInput,
     };
     store.dispatch("editNote", data);
-    setToastMessage("Note Edited Successully");
-    setShowToast(true);
+    setToastMessage && setToastMessage("Note Edited Successully");
+    setShowToast && setShowToast(true);
     linkRef.current.el.click();
   };
 
   const onDeleteNote = () => {
     store.dispatch("removeNote", id);
-    setToastMessage("Note Deleted Successully");
-    setShowToast(true);
+    setToastMessage && setToastMessage("Note Deleted Successully");
+    setShowToast && setShowToast(true);
     linkRef.current.el.click();
   };
 
@@ -168,7 +172,7 @@ const NotesModal = ({
       <Page style={{ background: "#fff0de" }}>
         <HeaderWrapper>
           <Title>Add Note</Title>
-          <Link ref={linkRef} noLinkClass popupClose>
+          <Link ref={linkRef} popupClose>
             <CgCloseO color="#3d3d3d" size={24} />
           </Link>
         </HeaderWrapper>

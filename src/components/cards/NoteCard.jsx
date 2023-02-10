@@ -1,7 +1,7 @@
 import { truncate } from "lodash";
 import React from "react";
 import styled from "styled-components";
-import { Link, Sheet } from "framework7-react";
+import { Link } from "framework7-react";
 import { IoNewspaperOutline } from "react-icons/io5";
 import NotesModal from "../Modal/NotesModal";
 
@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   position: relative;
-  padding: 1.2rem 1rem;
+  padding: 0.5rem 1rem;
 `;
 
 const NoteCardWrapper = styled(Link)`
@@ -17,12 +17,12 @@ const NoteCardWrapper = styled(Link)`
   justify-content: flex-start;
   align-items: flex-start;
   gap: 1rem;
-  width: 96%;
+  width: 100%;
   height: 120px;
-  background: white;
+  background: ${({ theme }) => theme.card};
   box-shadow: 0px 5px 20px 0px rgb(69 67 96 / 10%);
-  border-radius: 10px;
-  border: 5px solid white;
+  border-radius: 15px;
+  border: 5px solid ${({ theme }) => theme.primary};
 `;
 
 const IconWrapper = styled.div`
@@ -32,7 +32,7 @@ const IconWrapper = styled.div`
   margin-top: 1rem;
   border-radius: 50%;
   border-radius: 50%;
-  background: #eee;
+  background: ${({ theme }) => theme.iconBg};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -41,7 +41,7 @@ const IconWrapper = styled.div`
 const Icon = styled(IoNewspaperOutline)`
   width: 60%;
   height: 60%;
-  color: #aaa;
+  color: ${({ theme }) => theme.iconColor};
 `;
 
 const Title = styled.div`
@@ -49,7 +49,7 @@ const Title = styled.div`
   font-size: 16px;
   padding-top: 0.8rem;
   padding-left: 0.2rem;
-  color: #2d2d2d;
+  color: ${({ theme }) => theme.textCard};
 `;
 
 const TitleWrapper = styled.div`
@@ -68,26 +68,28 @@ const SubTitle = styled.p`
   display: flex;
   align-items: center;
   padding: 0.5rem 0;
-  color: #9d9d9d;
+  color: ${({ theme }) => theme.textCardLight};
   font-size: 0.8rem;
   font-weight: 600;
 `;
 
-const NoteCard = ({ item }) => {
+const NoteCard = ({ item, setShowToast, setToastMessage }) => {
   return (
     <Wrapper>
-      <NoteCardWrapper noLinkClass popupOpen={`.note-popup-${item.id}`}>
+      <NoteCardWrapper popupOpen={`.note-popup-${item.id}`}>
         <IconWrapper>
           <Icon />
         </IconWrapper>
         <TitleWrapper>
           <Title>{truncate(item.title, { length: 27 })}</Title>
           <InfoWrapper>
-            <SubTitle>{truncate(item.note, { length: 100 })}</SubTitle>
+            <SubTitle>{truncate(item.note, { length: 90 })}</SubTitle>
           </InfoWrapper>
         </TitleWrapper>
       </NoteCardWrapper>
       <NotesModal
+        setShowToast={setShowToast}
+        setToastMessage={setToastMessage}
         title={item.title}
         isEditing
         popupClass={`note-popup-${item.id}`}

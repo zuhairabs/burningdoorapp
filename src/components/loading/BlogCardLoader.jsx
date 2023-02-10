@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { CgTime, CgEye } from "react-icons/cg";
-import { BiBookmarkAlt } from "react-icons/bi";
 
 const Wrapper = styled.div`
   display: flex;
@@ -17,10 +16,10 @@ const BlogCardWrapper = styled.div`
   gap: 1rem;
   width: 96%;
   height: 120px;
-  background: white;
+  background: ${({ theme }) => theme.card};
   box-shadow: 0px 5px 20px 0px rgb(69 67 96 / 10%);
   border-radius: 10px;
-  border: 5px solid white;
+  border: 5px solid ${({ theme }) => theme.card};
 `;
 
 const ImageWrapper = styled.div`
@@ -34,14 +33,14 @@ const Image = styled.div`
   width: 100%;
   height: 100%;
   border-radius: 10px;
-  background: #dddddd;
+  background: ${({ theme }) => theme.cardImage};
 `;
 
 const Title = styled.div`
   font-weight: 600;
   font-size: 13px;
-  color: #2d2d2d;
-  background: #eee;
+  color: ${({ theme }) => theme.textCard};
+  background: ${({ theme }) => theme.textCard};
   border-radius: 10px;
   padding: 0.9rem;
   margin-top: 1rem;
@@ -72,21 +71,13 @@ const Minutes = styled.div`
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 0;
-  color: #9d9d9d;
+  color: ${({ theme }) => theme.textCardLight};
   font-size: 0.7rem;
   font-weight: 500;
 `;
 
-const Bookmark = styled(BiBookmarkAlt)`
-  position: absolute;
-  top: 1.8rem;
-  right: 1.8rem;
-  z-index: 9;
-  color: #ababab;
-`;
-
 const SmallBox = styled.div`
-  background: #eee;
+  background: ${({ theme }) => theme.textCardLight};
   padding: 0.4rem 1.5rem;
   border-radius: 10px;
 `;
@@ -117,7 +108,6 @@ const BlogCardLoader = () => {
               </InfoWrapper>
             </TitleWrapper>
           </BlogCardWrapper>
-          <Bookmark size={26} />
         </Wrapper>
       ))}
     </>

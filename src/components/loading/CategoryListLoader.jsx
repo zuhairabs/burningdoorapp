@@ -10,8 +10,8 @@ const CategoryListWrapper = styled.div`
 `;
 
 const CategoryListPill = styled(Link)`
-  background: #eee;
-  color: #4d4d4d;
+  background: ${({ theme }) => theme.pill};
+  color: ${({ theme }) => theme.pillText};
   font-weight: 600;
   border-radius: 25px;
   padding: 0.8rem 2rem;
@@ -24,7 +24,6 @@ const CategoryListLoader = ({}) => {
       {[1, 2, 3, 4, 5, 6, 7].map((item) => (
         <CategoryListPill
           transition="f7-parallax"
-          noLinkClass
           href={`/category/${item.id}`}
           key={item.id}
         />

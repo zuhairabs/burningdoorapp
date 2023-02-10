@@ -7,7 +7,7 @@ const Wrapper = styled(Link)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 50px;
+  width: 100px;
   font-size: 12px;
   font-weight: 600;
   color: ${({ color }) => (color ? color : "#3d3d3d")};
@@ -22,7 +22,6 @@ const BlogControlsButton = ({ theme }) => {
     <Wrapper
       bg={theme.lightBg}
       color={theme.color}
-      noLinkClass
       sheetOpen=".blog-controls-sheet"
     >
       Aa <BsThreeDotsVertical />

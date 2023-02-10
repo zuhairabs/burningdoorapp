@@ -81,7 +81,6 @@ const SmallCard = ({ isPopular, item, index }) => {
     <Wrapper
       isPopular={isPopular}
       index={index}
-      noLinkClass
       transition="f7-parallax"
       href={`/blog/${item.id}`}
     >

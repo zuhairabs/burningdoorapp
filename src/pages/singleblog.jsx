@@ -214,23 +214,21 @@ const SingleBlogPage = ({ f7router, id }) => {
       <MainWrapper>
         <ImageWrapper src={getLink(blog.photo)}>
           <Wrapper>
-            <LeftArrow
-              onClick={() => f7router.back()}
-              color="white"
-              size={20}
-            />
+            <Link onClick={() => f7router.back()}>
+              <LeftArrow color="white" size={20} />
+            </Link>
             {isBookmarked().marked ? (
-              <BookmarkFillIcon
-                onClick={bookmarkBlog}
-                color="rgba(255,255,255,0.8)"
-                size={20}
-              />
+              <Link onClick={bookmarkBlog}>
+                <BookmarkFillIcon color="rgba(255,255,255,0.8)" size={20} />
+              </Link>
             ) : (
-              <BookmarkIcon
-                onClick={bookmarkBlog}
-                color="rgba(255,255,255,0.8)"
-                size={20}
-              />
+              <Link onClick={bookmarkBlog}>
+                <BookmarkIcon
+                  onClick={bookmarkBlog}
+                  color="rgba(255,255,255,0.8)"
+                  size={20}
+                />
+              </Link>
             )}
           </Wrapper>
           <Image src={getLink(blog.photo)} />
@@ -240,17 +238,16 @@ const SingleBlogPage = ({ f7router, id }) => {
           <Pill
             color="#fff"
             bg="linear-gradient( 90deg, rgba(255,185,105,1) 25%, rgba(242,138,16,1) 100% )"
-            noLinkClass
             transition="f7-parallax"
             href={`/category/${blog.category_id}`}
           >
             {blog.category_name}
           </Pill>
           <PillWrapper>
-            <Pill noLinkClass transition="f7-dive" external href={blogUrl}>
+            <Pill transition="f7-dive" external href={blogUrl}>
               <BsGlobe size={15} /> Website
             </Pill>
-            <Pill noLinkClass transition="f7-dive" href="" onClick={shareApp}>
+            <Pill transition="f7-dive" href="" onClick={shareApp}>
               <FiShare size={15} /> Share
             </Pill>
           </PillWrapper>

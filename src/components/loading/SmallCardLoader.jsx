@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  background: white;
+  background: ${({ theme }) => theme.card};
   min-width: 170px;
   height: 150px;
   border-radius: 18px;
@@ -54,9 +54,9 @@ const ImageWrapper = styled.div`
   width: 80%;
   height: 120px;
   margin-top: -2rem;
-  background: #dddddd;
+  background: ${({ theme }) => theme.cardImage};
   border-radius: 15px;
-  border: 3px solid white;
+  border: 3px solid ${({ theme }) => theme.cardImage};
   box-shadow: 0px 5px 20px 0px rgb(69 67 96 / 10%);
 `;
 
@@ -64,8 +64,8 @@ const Title = styled.div`
   font-weight: 600;
   font-size: 12px;
   text-align: center;
-  color: #2d2d2d;
-  background: #eee;
+  color: ${({ theme }) => theme.textCard};
+  background: ${({ theme }) => theme.textCard};
   padding: 0.5rem 3rem;
   border-radius: 10px;
 `;

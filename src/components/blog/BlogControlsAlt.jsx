@@ -26,24 +26,18 @@ const IconWrapper = styled(Link)`
 const BlogControlsAltButton = ({ theme, handleShare, popupClass }) => {
   return (
     <Wrapper bg={theme.lightBg}>
-      <IconWrapper
-        color={theme.color}
-        noLinkClass
-        sheetOpen=".blog-controls-sheet"
-      >
+      <IconWrapper color={theme.color} sheetOpen=".blog-controls-sheet">
         Aa <BsThreeDotsVertical />
       </IconWrapper>
-      <Link noLinkClass popupOpen={popupClass}>
+      <Link popupOpen={popupClass}>
         <AiOutlineFileAdd
           color={theme.color ? theme.color : "#3d3d3d"}
           size={20}
         />
       </Link>
-      <BsShareFill
-        onClick={handleShare}
-        color={theme.color ? theme.color : "#3d3d3d"}
-        size={16}
-      />
+      <Link onClick={handleShare}>
+        <BsShareFill color={theme.color ? theme.color : "#3d3d3d"} size={16} />
+      </Link>
     </Wrapper>
   );
 };

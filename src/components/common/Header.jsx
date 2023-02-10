@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { FiSettings } from "react-icons/fi";
 import { Link } from "framework7-react";
+import LogoImg from "../../assets/logo.png";
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -33,7 +34,7 @@ const HeaderRight = styled(Link)`
 const Logo = styled.div`
   width: 50px;
   height: 50px;
-  background-image: url("https://theburningdoor.com/assets/img/logo.png");
+  background-image: url(${LogoImg});
   background-repeat: no-repeat;
   background-size: cover;
 `;
@@ -48,11 +49,11 @@ const SettingsIcon = styled(FiSettings)`
 const Header = () => (
   <HeaderWrapper>
     <HeaderLeft>
-      <Link noLinkClass transition="f7-parallax" href="/about/">
+      <Link transition="f7-parallax" href="/about/">
         <Logo />
       </Link>
     </HeaderLeft>
-    <HeaderRight noLinkClass transition="f7-parallax" href="/settings/">
+    <HeaderRight transition="f7-parallax" href="/settings/">
       <SettingsIcon size={24} />
     </HeaderRight>
   </HeaderWrapper>

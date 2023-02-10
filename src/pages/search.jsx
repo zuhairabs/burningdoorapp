@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Page, useStore } from "framework7-react";
+import { Link, Page, useStore } from "framework7-react";
 import SearchInput from "../components/Input/SearchInput";
 import styled from "styled-components";
 import { FiTrendingUp } from "react-icons/fi";
@@ -16,9 +16,10 @@ const Text = styled.div`
   color: ${({ theme }) => theme.seeMore};
 `;
 
-const ListItem = styled.div`
+const ListItem = styled(Link)`
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 1rem;
   margin: 1rem 2rem;
   font-size: 18px;
@@ -26,7 +27,7 @@ const ListItem = styled.div`
   color: ${({ theme }) => theme.textPrimary};
 `;
 
-const CategoryListPill = styled.div`
+const CategoryListPill = styled(Link)`
   background: ${({ theme }) => theme.pill};
   color: ${({ theme }) => theme.pillText};
   font-weight: 600;

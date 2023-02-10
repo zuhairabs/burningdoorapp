@@ -1,8 +1,9 @@
+import { Link } from "framework7-react";
 import React from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import styled from "styled-components";
 
-const Wrapper = styled.div`
+const Wrapper = styled(Link)`
   display: flex;
   align-items: center;
   gap: 8px;

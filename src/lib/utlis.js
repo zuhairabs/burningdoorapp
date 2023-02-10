@@ -48,6 +48,7 @@ export const LIGHT_THEME = {
   shade: "255, 255, 255",
   iconColor: "#aaa",
   toggleInactiveColor: "#ddd",
+  iconBg: "#eee",
 };
 
 export const DARK_THEME = {
@@ -74,4 +75,5 @@ export const DARK_THEME = {
   shade: "29, 29, 29",
   iconColor: "#aaa",
   toggleInactiveColor: "#444",
+  iconBg: "#444",
 };

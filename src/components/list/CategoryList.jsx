@@ -24,7 +24,6 @@ const CategoryList = ({ data = [] }) => {
       {data.map((item) => (
         <CategoryListPill
           transition="f7-parallax"
-          noLinkClass
           href={`/category/${item.id}`}
           key={item.id}
         >

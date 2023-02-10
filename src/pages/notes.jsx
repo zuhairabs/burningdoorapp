@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Page, useStore } from "framework7-react";
+import { Link, Page, useStore } from "framework7-react";
 import styled from "styled-components";
 import BackButton from "../components/common/BackButton";
 import PageTitle from "../components/Text/PageTitle";
 import NotesList from "../components/list/NotesList";
 import Toast from "../components/Toast/Toast";
+import NotesModal from "../components/Modal/NotesModal";
 
 const Fixed = styled.div`
   width: 100%;
@@ -29,8 +30,25 @@ const Fixed = styled.div`
 `;
 
 const ListWrapper = styled.div`
-  transform: translateY(90px);
+  transform: translateY(170px);
   z-index: 2;
+`;
+
+const ButtonWrapper = styled.div`
+  transform: translateY(160px);
+  position: relative;
+  z-index: 3;
+`;
+
+const AddButton = styled(Link)`
+  color: #f28a10;
+  position: static;
+  margin: auto;
+  font-weight: bold;
+  text-transform: capitalize;
+  font-size: 1.2rem;
+  text-decoration: underline;
+  width: 100%;
 `;
 
 const StyledPage = styled(Page)`
@@ -55,13 +73,25 @@ const NotesPage = ({ f7router }) => {
         <BackButton router={f7router} />
         <PageTitle title={"Notes"} />
       </Fixed>
+      <ButtonWrapper>
+        <AddButton popupOpen=".add-note-popup" fill>
+          + Add Note
+        </AddButton>
+      </ButtonWrapper>
+      <NotesModal
+        setShowToast={setShowToast}
+        setToastMessage={setToastMessage}
+        popupClass={"add-note-popup"}
+        id={Date.now()}
+        content={""}
+      />
       <ListWrapper>
         <NotesList
           noItemTitle="No Notes"
           setShowToast={setShowToast}
           setToastMessage={setToastMessage}
           data={notes}
-          listPadding="4rem 0"
+          listPadding="1rem 0"
         />
       </ListWrapper>
       <Toast showToast={showToast} text={toastMessage} />

@@ -38,6 +38,8 @@ const NotesList = ({
   data = [],
   listPadding = "",
   noItemTitle = "No Data",
+  setShowToast,
+  setToastMessage,
 }) => {
   return (
     <NoteCardListWrapper padding={listPadding}>
@@ -47,7 +49,14 @@ const NotesList = ({
           <span>{noItemTitle}</span>
         </NoDataWrapper>
       ) : (
-        data.map((item) => <NoteCard item={item} key={item.id} />)
+        data.map((item) => (
+          <NoteCard
+            setShowToast={setShowToast}
+            setToastMessage={setToastMessage}
+            item={item}
+            key={item.id}
+          />
+        ))
       )}
     </NoteCardListWrapper>
   );
