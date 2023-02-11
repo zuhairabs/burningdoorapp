@@ -47,7 +47,7 @@ const Image = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-  position: relative;
+  /* position: relative; */
   background: ${({ theme }) => theme.primary};
   max-width: 100%;
   min-height: ${window.innerHeight / 2.3}px;
@@ -112,7 +112,7 @@ const PillWrapper = styled.div`
 
 const StyledButton = styled(Button)`
   position: absolute;
-  bottom: 0;
+  bottom: 35px;
   left: 0;
   right: 0;
   width: 80%;

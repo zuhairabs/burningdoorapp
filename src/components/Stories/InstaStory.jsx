@@ -15,7 +15,7 @@ export const InstaStory = ({ closeRef }) => {
       height="100%"
       keyboardNavigation
       defaultInterval={4000}
-      stories={currentStorryArray.data}
+      stories={currentStorryArray.stories}
       onAllStoriesEnd={() => closeRef.current.el.click()}
     />
   );

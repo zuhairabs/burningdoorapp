@@ -6,12 +6,8 @@ import { capitalize, isEmpty, truncate } from "lodash";
 import { BOOK_TOC, getTitle } from "../constants/kitab_titles";
 import { BOOK_CONTENT } from "../constants/kitab_content";
 import BookImg from "../assets/kitab.jpg";
-import NoItemGif from "../assets/no-item-found.gif";
+import NoItemFound from "../assets/search-not-found.png";
 import { CgSearch } from "react-icons/cg";
-
-const PageWrapper = styled.div`
-  margin: 1rem;
-`;
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -90,16 +86,6 @@ const Author = styled.p`
   margin: -0.5rem 1rem;
 `;
 
-const Divider = styled.div`
-  background-color: #eee;
-  height: 2px;
-  width: 96%;
-  margin: auto;
-
-  position: relative;
-  z-index: 10;
-`;
-
 const List = styled.div`
   position: fixed;
   display: flex;
@@ -175,6 +161,10 @@ const ImgWrapper = styled.div`
   width: 100%;
   margin: 2rem 0;
 
+  img {
+    opacity: 0.5;
+  }
+
   p {
     display: flex;
     align-items: center;
@@ -182,14 +172,8 @@ const ImgWrapper = styled.div`
     width: 100%;
     font-size: 2rem;
     font-weight: 800;
+    opacity: 0.5;
   }
-`;
-
-const SearchTitle = styled.div`
-  margin: 1.5rem 1rem;
-  font-weight: 800;
-  font-size: 1rem;
-  color: #000;
 `;
 
 const SearchInputWrapper = styled.div`
@@ -262,7 +246,6 @@ const KitabPage = ({ f7router }) => {
           />
         </SearchInputWrapper>
       </HeaderWrapper>
-      {/* <PageWrapper> */}
       <BookDetails>
         <BookCover />
         <TitleWrapper>
@@ -279,12 +262,11 @@ const KitabPage = ({ f7router }) => {
           </div>
         </TitleWrapper>
       </BookDetails>
-      {/* <Divider /> */}
       {isSearching ? (
         <>
           {isEmpty(searchedContentArray) ? (
             <ImgWrapper>
-              <Img src={NoItemGif} alt="no-item" />
+              <Img src={NoItemFound} alt="no-item" />
               <p>Not found!</p>
             </ImgWrapper>
           ) : (
@@ -328,7 +310,6 @@ const KitabPage = ({ f7router }) => {
           ))}
         </List>
       )}
-      {/* </PageWrapper> */}
     </Page>
   );
 };

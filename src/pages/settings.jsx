@@ -35,6 +35,7 @@ const Fixed = styled.div`
 const Wrapper = styled.div`
   transform: translateY(150px);
   padding: 0 1rem;
+  padding-bottom: 2rem;
   z-index: 2;
 `;
 

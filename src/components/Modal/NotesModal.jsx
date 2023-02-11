@@ -64,7 +64,7 @@ const Input = styled.input`
 const TextArea = styled.textarea`
   width: 90%;
   padding: 1rem;
-  margin: 1rem;
+  margin: 0 1rem 1rem 1rem;
   border-color: #000;
   border-style: solid;
   border-top-width: 2px;
@@ -110,6 +110,14 @@ const Button = styled.button`
   align-items: center;
 `;
 
+const ButtonWrapper = styled.div`
+  width: 100%;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const NotesModal = ({
   id,
   title,
@@ -132,7 +140,7 @@ const NotesModal = ({
     if (content) {
       setContentInput(content);
     }
-  }, [id]);
+  }, [content]);
 
   const onSaveNote = () => {
     const data = {
@@ -198,7 +206,7 @@ const NotesModal = ({
             }}
           >
             {isEditing ? (
-              <>
+              <ButtonWrapper>
                 <Button
                   marginRight="12px"
                   width="40%"
@@ -215,9 +223,11 @@ const NotesModal = ({
                 >
                   Delete Note
                 </Button>
-              </>
+              </ButtonWrapper>
             ) : (
-              <Button onClick={onSaveNote}>Save Note</Button>
+              <ButtonWrapper>
+                <Button onClick={onSaveNote}>Save Note</Button>
+              </ButtonWrapper>
             )}
           </div>
         </ContentWrapper>

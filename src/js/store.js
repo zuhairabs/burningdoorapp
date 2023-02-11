@@ -1,5 +1,5 @@
 import { createStore } from "framework7/lite";
-import { STORIES } from "../components/Stories/Stories";
+import { Story } from "../components/Stories/Stories";
 import { fetcher } from "../lib/utlis";
 
 const store = createStore({
@@ -79,7 +79,7 @@ const store = createStore({
     categories: [],
     categoryBlogs: [],
     searchedBlogs: [],
-    stories: STORIES,
+    stories: [],
     currentStory: 0,
     singleBlog: {},
     appDetails: {},
@@ -153,6 +153,7 @@ const store = createStore({
       state.loading = value;
     },
     setBookmarks({ state }, blog) {
+      console.log({ blog });
       state.bookmarks = [...state.bookmarks, blog];
     },
     removeBookmarks({ state }, blog) {
@@ -182,13 +183,20 @@ const store = createStore({
     setCurrentStory({ state }, index) {
       state.currentStory = index;
     },
-    // async getStories({ state, dispatch }) {
-    //   dispatch("setIsLoading", true);
-    //   const data = await fetcher("/stories", () => {
-    //     dispatch("setIsLoading", false);
-    //   });
-    //   state.stories = data;
-    // },
+    async getStories({ state, dispatch }) {
+      dispatch("setIsLoading", true);
+      const data = await fetcher("/storys", () => {
+        dispatch("setIsLoading", false);
+      });
+      const updatedData = data.storys.map((store) => {
+        store.stories.map((story) => {
+          story.content = Story;
+          return story;
+        });
+        return store;
+      });
+      state.stories = updatedData;
+    },
     async getAllBlogs({ state, dispatch }) {
       dispatch("setIsLoading", true);
       const data = await fetcher("/blogs", () => {

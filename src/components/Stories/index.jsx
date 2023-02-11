@@ -10,7 +10,7 @@ const StoriesWrapper = styled.div`
   align-items: center;
   justify-content: flex-start;
   margin: 2rem 0 0 1rem;
-  width: calc(100vw - 45px);
+  width: 100%;
   overflow-x: scroll;
 `;
 const StoryWrapper = styled(Link)`
@@ -67,6 +67,34 @@ const Text = styled.div`
   font-weight: 600;
 `;
 
+const Video = styled.video`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+`;
+
+const VideoWrapper = styled.div`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 3px solid ${({ theme }) => theme.primary};
+  position: relative;
+  z-index: 1;
+  background: ${({ theme }) => theme.iconBg};
+
+  &::after {
+    content: "";
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.3);
+    top: 0;
+    left: 0;
+    z-index: 2;
+    border-radius: 50%;
+  }
+`;
+
 const Stories = ({ data = [] }) => {
   const updateCurrentStory = (index) => {
     store.dispatch("setCurrentStory", index);
@@ -75,18 +103,24 @@ const Stories = ({ data = [] }) => {
   return (
     <StoriesWrapper>
       {data.map((item, index) => (
-        <Flex key={item.id}>
+        <Flex key={item?.id}>
           <StoryWrapper
             onClick={() => updateCurrentStory(index)}
             popupOpen={".story-popup"}
-            key={item.id}
+            key={item?.id}
           >
-            <Story img={item.data[0].data.img} />
+            {item?.stories?.[0]?.story?.type === "image" ? (
+              <Story img={item?.stories?.[0]?.story?.img} />
+            ) : (
+              <VideoWrapper>
+                <Video src={item?.stories?.[0]?.story?.video} muted />
+              </VideoWrapper>
+            )}
           </StoryWrapper>
-          <Text>{truncate(item.title, { length: 16 })}</Text>
+          <Text>{truncate(item?.title, { length: 16 })}</Text>
         </Flex>
       ))}
-      <StoryPopup popupClass="story-popup" />
+      {data.length > 0 && <StoryPopup popupClass="story-popup" />}
     </StoriesWrapper>
   );
 };

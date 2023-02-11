@@ -48,6 +48,9 @@ const AllLink = styled(Link)`
 
 const StyledPage = styled(Page)`
   background-color: ${({ theme }) => theme.primary};
+  .page-content {
+    overflow-x: hidden;
+  }
 `;
 
 const iconColor = "#f28a10";
@@ -66,7 +69,7 @@ const HomePage = ({ f7router }) => {
     store.dispatch("getTopTenBlogs");
     store.dispatch("getCategories");
     store.dispatch("getAppDetails");
-    // store.dispatch("getStories");
+    store.dispatch("getStories");
   }, []);
 
   return (

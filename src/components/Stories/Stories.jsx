@@ -1,7 +1,8 @@
 import { Link } from "framework7-react";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { IoClose } from "react-icons/io5";
+import { BsFillVolumeUpFill, BsVolumeMuteFill } from "react-icons/bs";
 
 const ContentWrapper = styled.div`
   width: 100%;
@@ -12,6 +13,11 @@ const ContentWrapper = styled.div`
 `;
 
 const Image = styled.img`
+  width: 100%;
+  height: 100%;
+`;
+
+const Video = styled.video`
   width: 100%;
   height: 100%;
 `;
@@ -35,7 +41,6 @@ const CustomSeeMore = styled(Link)`
 `;
 
 const CustomHeader = styled.div`
-  max-width: 50%;
   position: absolute;
   top: 40px;
   z-index: 98;
@@ -66,69 +71,78 @@ const Icon = styled(Link)`
   backdrop-filter: blur(4px);
   border-radius: 50%;
   position: absolute;
-  top: 58px;
+  top: 56px;
   z-index: 1001;
   right: 2rem;
 `;
 
-const Story = ({ story }) => {
+const MuteIcon = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  border-radius: 50%;
+  position: absolute;
+  top: 56px;
+  z-index: 1001;
+  left: 2rem;
+`;
+
+export const Story = ({ story }) => {
+  const [muted, setMuted] = useState(true);
+  const videoRef = useRef(null);
+
+  const muteVideo = () => {
+    setMuted(true);
+  };
+
+  const unMuteVideo = () => {
+    setMuted(false);
+  };
+
+  useEffect(() => {
+    if (videoRef.current) videoRef.current.muted = muted;
+  }, [muted]);
+
   return (
     <ContentWrapper>
-      <Image src={story.data.img} />
+      {story.story.type === "image" ? (
+        <Image src={story.story.img} alt={story.story.title} />
+      ) : (
+        <Video
+          ref={videoRef}
+          src={story.story.video}
+          autoPlay
+          playsInline
+          muted
+        />
+      )}
       <CustomHeader>
-        <p>{story.data.title}</p>
+        <p>{story.story.title}</p>
       </CustomHeader>
       <Icon popupClose>
         <IoClose size={22} strokeWidth={4} />
       </Icon>
-      <CustomSeeMore href={story.data.url} external>
+      {story.story.type === "video" && (
+        <>
+          {muted ? (
+            <MuteIcon onClick={() => unMuteVideo()}>
+              <BsVolumeMuteFill size={22} />
+            </MuteIcon>
+          ) : (
+            <MuteIcon onClick={() => muteVideo()}>
+              <BsFillVolumeUpFill size={22} />
+            </MuteIcon>
+          )}
+        </>
+      )}
+      <CustomSeeMore href={story.story.url} external>
         Read More →
       </CustomSeeMore>
     </ContentWrapper>
   );
 };
-
-export const stories = [
-  {
-    content: Story,
-    data: {
-      title: "Who Killed Fatima",
-      img: "https://thumbs.dreamstime.com/b/scenery-mobile-wallpaper-nature-background-bamboo-river-portrait-view-scenery-mobile-wallpaper-nature-background-113640850.jpg",
-      url: "",
-    },
-  },
-  {
-    content: Story,
-    data: {
-      title: "Who Killed Fatima",
-      img: "https://thumbs.dreamstime.com/b/scenery-mobile-wallpaper-nature-background-bamboo-river-portrait-view-scenery-mobile-wallpaper-nature-background-113640850.jpg",
-      url: "",
-    },
-  },
-  {
-    content: Story,
-    data: {
-      title: "Who Killed Fatima",
-      img: "https://thumbs.dreamstime.com/b/scenery-mobile-wallpaper-nature-background-bamboo-river-portrait-view-scenery-mobile-wallpaper-nature-background-113640850.jpg",
-      url: "",
-    },
-  },
-];
-
-export const STORIES = [
-  {
-    id: 1,
-    title: "something",
-    data: stories,
-  },
-  {
-    id: 2,
-    title: "something 2",
-    data: stories,
-  },
-  {
-    id: 3,
-    title: "something 3",
-    data: stories,
-  },
-];
