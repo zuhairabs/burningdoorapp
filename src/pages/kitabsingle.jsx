@@ -9,6 +9,7 @@ import BlogControlsAltButton from "../components/blog/BlogControlsAlt";
 import NotesModal from "../components/Modal/NotesModal";
 import NavButton from "../components/blog/NavButton";
 import Toast from "../components/Toast/Toast";
+import { Share } from "@capacitor/share";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -111,15 +112,15 @@ const KitabSinglePage = ({ f7router, id }) => {
   const title = getTitle(parseInt(id));
   const page = getBookContent(parseInt(id));
 
-  const handleShare = () => {
-    const shareData = {
-      title: title.title,
-      text: contentText,
-      url: `https://theburningdoor.com/book/${page.page_no}`,
-    };
-    console.log({ shareData });
-    if (window.navigator.share) {
-      window.navigator.share();
+  const handleShare = async () => {
+    const isShareable = await Share.canShare();
+    if (isShareable.value) {
+      await Share.share({
+        title: title.title,
+        text: contentText,
+        url: `https://theburningdoor.com/book/${page.page_no}`,
+        dialogTitle: `Share ${title.title}`,
+      });
     } else {
       setToastMessage("Your device do not support native share");
       setShowToast(true);

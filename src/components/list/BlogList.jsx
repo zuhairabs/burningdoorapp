@@ -49,7 +49,7 @@ const BlogList = ({
           <span>{noItemTitle}</span>
         </NoDataWrapper>
       ) : (
-        data.map((item) => <BlogCard item={item} key={item.id} />)
+        data?.map((item) => <BlogCard item={item} key={item.id} />)
       )}
     </BlogCardListWrapper>
   );

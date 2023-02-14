@@ -7,9 +7,10 @@ import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 import { FiShare } from "react-icons/fi";
 import AboutLogo from "../assets/logo_large.jpg";
 import store from "../js/store";
-import { getLink } from "../lib/utlis";
+import { getLink } from "../lib/utils";
 import { isEmpty, truncate } from "lodash";
 import Toast from "../components/Toast/Toast";
+import { Share } from "@capacitor/share";
 
 const Wrapper = styled.div`
   min-height: ${window.innerHeight / 2.2}px;
@@ -159,10 +160,16 @@ const StyledPage = styled(Page)`
 
 const SingleBlogPage = ({ f7router, id }) => {
   const [showToast, setShowToast] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [toastMessage, setToastMessage] = useState(null);
+  const [blog, setSingleBlog] = useState({
+    title: "",
+    photo: "",
+    description: "",
+  });
+  const allBlogs = useStore("getBlogs");
   const isLoading = useStore("isLoading");
   const bookmarks = useStore("getBookmarks");
-  const blog = useStore("getSingleBlog");
   const blogUrl = `https://theburningdoor.com/single.php?title=${blog.title
     ?.split(" ")
     ?.join("_")}&id=${blog.id}`;
@@ -171,13 +178,15 @@ const SingleBlogPage = ({ f7router, id }) => {
     title: blog.title,
     text: blog.content,
     url: blogUrl,
+    dialogTitle: `Share ${blog.title}`,
   };
 
   const shareApp = async () => {
-    if (window.navigator.share) {
-      window.navigator.share(shareData);
+    const isShareable = await Share.canShare();
+    if (isShareable.value) {
+      await Share.share(shareData);
     } else {
-      setToastMessage();
+      setToastMessage("Your device do not support native share");
       setShowToast(true);
     }
   };
@@ -190,7 +199,7 @@ const SingleBlogPage = ({ f7router, id }) => {
     } else {
       setToastMessage("Added to bookmarks");
       setShowToast(true);
-      store.dispatch("setBookmarks", blog);
+      store.dispatch("setBookmarks", [blog]);
     }
   };
 
@@ -199,8 +208,14 @@ const SingleBlogPage = ({ f7router, id }) => {
     return { item, marked: !isEmpty(item) };
   };
 
+  const getSingleBlog = () => {
+    const blog = allBlogs.filter((blog) => blog.id === id)[0];
+    setSingleBlog(!isEmpty(blog) ? blog : {});
+    setLoading(false);
+  };
+
   useEffect(() => {
-    store.dispatch("getSingleBlog", id);
+    getSingleBlog();
   }, []);
 
   useEffect(() => {
@@ -229,41 +244,45 @@ const SingleBlogPage = ({ f7router, id }) => {
           </Wrapper>
           <Image src={getLink(blog.photo)} />
         </ImageWrapper>
-        <ContentWrapper>
-          <Title>{blog.title}</Title>
-          <Pill
-            color="#fff"
-            bg="linear-gradient( 90deg, rgba(255,185,105,1) 25%, rgba(242,138,16,1) 100% )"
-            transition="f7-parallax"
-            href={`/category/${blog.category_id}`}
-          >
-            {blog.category_name}
-          </Pill>
-          <PillWrapper>
-            <Pill transition="f7-dive" external href={blogUrl}>
-              <BsGlobe size={15} /> Website
+        {loading ? (
+          <>Loading</>
+        ) : (
+          <ContentWrapper>
+            <Title>{blog.title}</Title>
+            <Pill
+              color="#fff"
+              bg="linear-gradient( 90deg, rgba(255,185,105,1) 25%, rgba(242,138,16,1) 100% )"
+              transition="f7-parallax"
+              href={`/category/${blog.category_id}`}
+            >
+              {blog.category_name}
             </Pill>
-            <Pill transition="f7-dive" href="" onClick={shareApp}>
-              <FiShare size={15} /> Share
-            </Pill>
-          </PillWrapper>
-          {isLoading ? (
-            "Loading"
-          ) : (
-            <Text
-              dangerouslySetInnerHTML={{
-                __html: truncate(blog.content, { length: 450 }),
-              }}
-            />
-          )}
-          <StyledButton
-            transition="f7-push"
-            href={`/blog/details/${blog.id}`}
-            fill
-          >
-            Read More
-          </StyledButton>
-        </ContentWrapper>
+            <PillWrapper>
+              <Pill transition="f7-dive" external href={blogUrl}>
+                <BsGlobe size={15} /> Website
+              </Pill>
+              <Pill transition="f7-dive" href="" onClick={shareApp}>
+                <FiShare size={15} /> Share
+              </Pill>
+            </PillWrapper>
+            {isLoading ? (
+              "Loading"
+            ) : (
+              <Text
+                dangerouslySetInnerHTML={{
+                  __html: truncate(blog.content, { length: 450 }),
+                }}
+              />
+            )}
+            <StyledButton
+              transition="f7-push"
+              href={`/blog/details/${blog.id}`}
+              fill
+            >
+              Read More
+            </StyledButton>
+          </ContentWrapper>
+        )}
       </MainWrapper>
       <Toast showToast={showToast} text={toastMessage} />
     </StyledPage>

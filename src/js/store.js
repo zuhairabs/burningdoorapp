@@ -1,9 +1,16 @@
 import { createStore } from "framework7/lite";
+import { isEmpty } from "lodash";
 import { Story } from "../components/Stories/Stories";
-import { fetcher } from "../lib/utlis";
+import {
+  fetcher,
+  updateBlogControls,
+  updateBookmarkState,
+  updateNotesState,
+} from "../lib/utils";
 
 const store = createStore({
   state: {
+    // local state
     blogControls: [
       {
         id: 0,
@@ -71,21 +78,20 @@ const store = createStore({
         ],
       },
     ],
+    bookmarks: [],
+    notes: [],
+    // end local state
     allBlogs: [],
     recentBlogs: [],
     topTenBlogs: [],
-    bookmarks: [],
-    notes: [],
     categories: [],
     categoryBlogs: [],
     searchedBlogs: [],
     stories: [],
-    currentStory: 0,
     singleBlog: {},
     appDetails: {},
-    hideBanner: false,
-    hideStory: false,
-    loading: false,
+    currentStory: 0,
+    loading: true,
   },
   getters: {
     blogControls({ state }) {
@@ -124,12 +130,6 @@ const store = createStore({
     getNotes({ state }) {
       return state.notes;
     },
-    getHideStory({ state }) {
-      return state.hideStory;
-    },
-    getHideBanner({ state }) {
-      return state.hideBanner;
-    },
     getStories({ state }) {
       return state.stories;
     },
@@ -140,112 +140,97 @@ const store = createStore({
   actions: {
     updateSize({ state }, value) {
       state.blogControls[0] = { ...state.blogControls[0], value };
+      updateBlogControls(state.blogControls);
     },
     updateStyle({ state }, newValues) {
       state.blogControls[1] = newValues;
       state.blogControls = [...state.blogControls];
+      updateBlogControls(state.blogControls);
     },
     updateTheme({ state }, newValues) {
       state.blogControls[2] = newValues;
       state.blogControls = [...state.blogControls];
+      updateBlogControls(state.blogControls);
+    },
+    setBlogControls({ state }, controls) {
+      state.blogControls = controls;
     },
     setIsLoading({ state }, value) {
       state.loading = value;
     },
     setBookmarks({ state }, blog) {
-      console.log({ blog });
-      state.bookmarks = [...state.bookmarks, blog];
+      state.bookmarks = [...state.bookmarks, ...blog];
+      updateBookmarkState(state.bookmarks);
+    },
+    setSTBookmarks({ state }, blog) {
+      state.bookmarks = [...state.bookmarks, ...blog];
     },
     removeBookmarks({ state }, blog) {
       const updatedBookmarks = state.bookmarks.filter(
         (mark) => mark.id !== blog.id
       );
       state.bookmarks = updatedBookmarks;
+      updateBookmarkState(state.bookmarks);
     },
     setNotes({ state }, note) {
-      state.notes = [...state.notes, note];
+      state.notes = [...state.notes, ...note];
+      updateNotesState(state.notes);
+    },
+    setSTNotes({ state }, note) {
+      state.notes = [...state.notes, ...note];
     },
     removeNote({ state }, id) {
       const updatedNotes = state.notes.filter((note) => note.id !== id);
       state.notes = updatedNotes;
+      updateNotesState(state.notes);
     },
     editNote({ state }, note) {
       const index = state.notes.findIndex((n) => n.id === note.id);
       state.notes[index] = note;
       state.notes = [...state.notes];
-    },
-    hideBanner({ state }, value) {
-      state.hideBanner = value;
-    },
-    hideStory({ state }, value) {
-      state.hideStory = value;
+      updateNotesState(state.notes);
     },
     setCurrentStory({ state }, index) {
       state.currentStory = index;
     },
-    async getStories({ state, dispatch }) {
-      dispatch("setIsLoading", true);
-      const data = await fetcher("/storys", () => {
-        dispatch("setIsLoading", false);
-      });
-      const updatedData = data.storys.map((store) => {
-        store.stories.map((story) => {
-          story.content = Story;
-          return story;
+    getStories({ state }, data) {
+      if (!isEmpty(data)) {
+        const updatedData = data.storys.map((store) => {
+          store.stories.map((story) => {
+            story.content = Story;
+            return story;
+          });
+          return store;
         });
-        return store;
-      });
-      state.stories = updatedData;
+        state.stories = updatedData;
+      }
     },
-    async getAllBlogs({ state, dispatch }) {
-      dispatch("setIsLoading", true);
-      const data = await fetcher("/blogs", () => {
-        dispatch("setIsLoading", false);
-      });
+    getAllBlogs({ state }, data) {
       state.allBlogs = data;
     },
-    async getRecentBlogs({ state, dispatch }) {
-      dispatch("setIsLoading", true);
-      const data = await fetcher("/recents", () => {
-        dispatch("setIsLoading", false);
-      });
+    getRecentBlogs({ state }, data) {
       state.recentBlogs = data;
     },
-    async getTopTenBlogs({ state, dispatch }) {
-      dispatch("setIsLoading", true);
-      const data = await fetcher("/topten", () => {
-        dispatch("setIsLoading", false);
-      });
+    getTopTenBlogs({ state }, data) {
       state.topTenBlogs = data;
     },
-    async getCategories({ state, dispatch }) {
-      dispatch("setIsLoading", true);
-      const data = await fetcher("/categories", () => {
-        dispatch("setIsLoading", false);
-      });
+    getCategories({ state }, data) {
       state.categories = data;
     },
-    async getCategory({ state, dispatch }, id) {
-      dispatch("setIsLoading", true);
-      const data = await fetcher(`/category/${id}`, () => {
-        dispatch("setIsLoading", false);
-      });
+    getAppDetails({ state }, data) {
+      state.appDetails = data;
+    },
+    async getCategory({ state }, id) {
+      const data = await fetcher(`/category/${id}`);
       state.categoryBlogs = data;
     },
     async getSearchedBlogs({ state }, searchInput) {
       const data = await fetcher(`/search/${searchInput}`, () => {});
       state.searchedBlogs = data;
     },
-    async getSingleBlog({ state, dispatch }, id) {
-      dispatch("setIsLoading", true);
-      const data = await fetcher(`/blog/${id}`, () => {
-        dispatch("setIsLoading", false);
-      });
+    async getSingleBlog({ state }, id) {
+      const data = await fetcher(`/blog/${id}`);
       state.singleBlog = data[0];
-    },
-    async getAppDetails({ state }) {
-      const data = await fetcher("/details", () => {});
-      state.appDetails = data;
     },
   },
 });

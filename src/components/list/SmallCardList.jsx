@@ -18,7 +18,7 @@ const SmallCardListWrapper = styled.div`
 const SmallCardList = ({ data = [], isPopular = false }) => {
   return (
     <SmallCardListWrapper isPopular={isPopular}>
-      {data.map((item, index) => (
+      {data?.map((item, index) => (
         <SmallCard
           key={item.id}
           isPopular={isPopular}

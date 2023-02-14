@@ -4,9 +4,10 @@ import styled from "styled-components";
 import { BsArrowLeft } from "react-icons/bs";
 import { BsGlobe } from "react-icons/bs";
 import { FiShare } from "react-icons/fi";
-import { shareData } from "../constants/about";
 import AboutLogo from "../assets/logo_large.jpg";
 import Toast from "../components/Toast/Toast";
+import { Share } from "@capacitor/share";
+import { appInfo } from "../constants/about";
 
 const Wrapper = styled.div`
   min-height: ${window.innerHeight / 2.2}px;
@@ -140,8 +141,14 @@ const AboutPage = ({ f7router }) => {
   const [showToast, setShowToast] = useState(false);
 
   const shareApp = async () => {
-    if (window.navigator.share) {
-      window.navigator.share(shareData);
+    const isShareable = await Share.canShare();
+    if (isShareable.value) {
+      await Share.share({
+        title: "The Burning Door",
+        text: "This app contains blogs related to the incident of the burning door of Fatima (sa)",
+        url: "https://theburningdoor.com",
+        dialogTitle: "Share The Burning Door App",
+      });
     } else {
       setShowToast(true);
     }
@@ -167,16 +174,16 @@ const AboutPage = ({ f7router }) => {
           <Image />
         </ImageWrapper>
         <ContentWrapper>
-          <Title>{appDetails.name}</Title>
+          <Title>{appDetails.name ?? appInfo.name}</Title>
           <PillWrapper>
             <Pill transition="f7-dive" external href={appDetails.url}>
-              <BsGlobe size={15} /> {appDetails.tag}
+              <BsGlobe size={15} /> {appDetails.tag ?? appInfo.tag}
             </Pill>
             <Pill transition="f7-dive" href="" onClick={shareApp}>
               <FiShare size={15} /> Share App
             </Pill>
           </PillWrapper>
-          <Text>{appDetails.shortDesc}</Text>
+          <Text>{appDetails.shortDesc ?? appInfo.shortDesc}</Text>
           <StyledButton transition="f7-push" href="/about-more/" fill>
             Read More
           </StyledButton>

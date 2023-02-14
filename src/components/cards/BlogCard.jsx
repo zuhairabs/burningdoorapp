@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import { CgTime, CgEye } from "react-icons/cg";
 import { Link } from "framework7-react";
-import { getLink, readingTime } from "../../lib/utlis";
+import { getLink, readingTime } from "../../lib/utils";
 import Placeholder from "../../assets/placeholder.jpg";
 
 const Wrapper = styled.div`

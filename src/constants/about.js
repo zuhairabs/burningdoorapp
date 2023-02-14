@@ -4,7 +4,7 @@ export const shareData = {
   url: "https://theburningdoor.com",
 };
 
-export const appDetails = {
+export const appInfo = {
   name: "The Burning Door",
   tag: "Website",
   shortDesc: `This website is dedicated in promoting the tragic incident of "The
@@ -15,6 +15,12 @@ export const appDetails = {
     reveal the roots of terrorism.`,
   url: "https://theburningdoor.com/",
   logoUrl: "https://theburningdoor.com/assets/img/og_logo_1.jpg",
+  managedByUrl: "https://shiachannel.in/",
+  manageText: "Developed and managed by",
+  managedBy: "Shia Channel",
+  helpUrl: "https://theburningdoor.com/contact.php",
+  contributeUrl: "https://theburningdoor.com/contribute.php",
+  version: "1.0.0",
   description: `<h6>Thank you for checking out our App.</h6>
   <p>
     <b>The Burning Door - Unmasking The Early Terrorists</b>

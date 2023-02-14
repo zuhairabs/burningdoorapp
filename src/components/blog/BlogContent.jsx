@@ -1,6 +1,7 @@
+import { useStore } from "framework7-react";
 import React from "react";
 import styled from "styled-components";
-import { appDetails } from "../../constants/about";
+import { appInfo } from "../../constants/about";
 
 const Wrapper = styled.div`
   width: 86%;
@@ -100,10 +101,12 @@ const BlogContent = ({
   fontSize,
   title = "The Burning Door",
   subtitle = "About",
-  content = appDetails.description,
+  content = "",
   noTitle = false,
   contentMargin = "-1.5rem",
 }) => {
+  const appDetails = useStore("getAppDetails");
+
   return (
     <Wrapper>
       <Subtitle>{subtitle}</Subtitle>
@@ -115,7 +118,13 @@ const BlogContent = ({
         bg={theme.bg}
         color={theme.lightColor}
         quoteColor={theme.quoteColor}
-        dangerouslySetInnerHTML={{ __html: content }}
+        dangerouslySetInnerHTML={{
+          __html: content
+            ? content
+            : appDetails.description
+            ? appDetails.description
+            : appInfo.description,
+        }}
       />
     </Wrapper>
   );

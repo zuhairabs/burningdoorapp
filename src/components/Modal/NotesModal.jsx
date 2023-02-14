@@ -148,7 +148,7 @@ const NotesModal = ({
       title: titleInput,
       note: contentInput,
     };
-    store.dispatch("setNotes", data);
+    store.dispatch("setNotes", [data]);
     setTitleInput("");
     setContentInput("");
     setToastMessage && setToastMessage("Note Saved Successully");

@@ -2,7 +2,7 @@ import { Link } from "framework7-react";
 import { truncate } from "lodash";
 import React from "react";
 import styled from "styled-components";
-import { getLink } from "../../lib/utlis";
+import { getLink } from "../../lib/utils";
 import Placeholder from "../../assets/placeholder.jpg";
 
 const Wrapper = styled(Link)`

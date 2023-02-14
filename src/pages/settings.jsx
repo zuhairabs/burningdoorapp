@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, Page, Toggle, useStore } from "framework7-react";
 import styled from "styled-components";
 import BackButton from "../components/common/BackButton";
@@ -8,7 +8,7 @@ import { BiRectangle, BiDonateBlood } from "react-icons/bi";
 import { CgStories } from "react-icons/cg";
 import { useTheme } from "../context/ThemeContext";
 import QRCode from "../assets/qrcode.png";
-import store from "../js/store";
+import { appInfo } from "../constants/about";
 
 const Fixed = styled.div`
   width: 100%;
@@ -159,9 +159,14 @@ const StyledPage = styled(Page)`
 `;
 
 const SettingsPage = ({ f7router }) => {
-  const { isDarkTheme, setIsDarkTheme } = useTheme();
-  const hideBanner = useStore("getHideBanner");
-  const hideStory = useStore("getHideStory");
+  const {
+    isDarkTheme,
+    setIsDarkTheme,
+    hideBanner,
+    hideStory,
+    setHideBanner,
+    setHideStory,
+  } = useTheme();
   const appDetails = useStore("getAppDetails");
 
   const toggleTheme = () => {
@@ -169,11 +174,11 @@ const SettingsPage = ({ f7router }) => {
   };
 
   const toggleBanner = () => {
-    store.dispatch("hideBanner", !hideBanner);
+    setHideBanner((prev) => !prev);
   };
 
   const toggleStories = () => {
-    store.dispatch("hideStory", !hideStory);
+    setHideStory((prev) => !prev);
   };
 
   return (
@@ -211,7 +216,7 @@ const SettingsPage = ({ f7router }) => {
           </Flex>
         </Flex>
         <LinkFlex
-          href={appDetails.helpUrl}
+          href={appDetails.helpUrl ?? appInfo.helpUrl}
           external
           marginBottom="1rem"
           justifyContent="space-between"
@@ -225,7 +230,7 @@ const SettingsPage = ({ f7router }) => {
           </Flex>
         </LinkFlex>
         <LinkFlex
-          href={appDetails.contributeUrl}
+          href={appDetails.contributeUrl ?? appInfo.contributeUrl}
           external
           marginBottom="1rem"
           justifyContent="space-between"
@@ -243,12 +248,16 @@ const SettingsPage = ({ f7router }) => {
         </Flex>
         <Flex flexDirection="column" justifyContent="center">
           <Version>
-            {appDetails.name} v{appDetails.version}
+            {appDetails.name ?? appInfo.name} v
+            {appDetails.version ?? appInfo.version}
           </Version>
           <Managed>
-            {appDetails.manageText}{" "}
-            <StyledLink href={appDetails.managedByUrl} external>
-              {appDetails.managedBy}
+            {appDetails.manageText ?? appInfo.manageText}{" "}
+            <StyledLink
+              href={appDetails.managedByUrl ?? appInfo.managedByUrl}
+              external
+            >
+              {appDetails.managedBy ?? appInfo.managedBy}
             </StyledLink>
           </Managed>
         </Flex>

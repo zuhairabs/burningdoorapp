@@ -1,4 +1,5 @@
 import { Page, Sheet, f7, useStore } from "framework7-react";
+import { isEmpty } from "lodash";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import BackButton from "../components/blog/BackButton";
@@ -50,9 +51,15 @@ const ContentWrapper = styled.div`
   padding-bottom: 3rem;
 `;
 
-const BlogDetailsPage = ({ f7router }) => {
+const BlogDetailsPage = ({ f7router, id }) => {
   const store = f7.store;
-  const blog = useStore("getSingleBlog");
+  const [blog, setSingleBlog] = useState({
+    title: "",
+    photo: "",
+    description: "",
+  });
+  const [loading, setLoading] = useState(true);
+  const allBlogs = useStore("getBlogs");
   const [theme, setTheme] = useState(null);
   const [size, setSize] = useState(null);
   const [style, setStyle] = useState(null);
@@ -90,6 +97,16 @@ const BlogDetailsPage = ({ f7router }) => {
     }
   }, [refetch]);
 
+  const getSingleBlog = () => {
+    const blog = allBlogs.filter((blog) => blog.id === id)[0];
+    setSingleBlog(!isEmpty(blog) ? blog : {});
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getSingleBlog();
+  }, []);
+
   return (
     <Page
       style={{ background: getTheme().bg ? getTheme().bg : "#f7f7f7" }}
@@ -101,15 +118,19 @@ const BlogDetailsPage = ({ f7router }) => {
           <BlogControlsButton theme={getTheme()} />
         </Header>
         <ContentWrapper>
-          <BlogContent
-            contentMargin="0"
-            title={blog.title}
-            content={blog.content}
-            subtitle={blog.category_name}
-            style={getStyle()}
-            fontSize={size?.value}
-            theme={getTheme()}
-          />
+          {loading ? (
+            <>Loading</>
+          ) : (
+            <BlogContent
+              contentMargin="0"
+              title={blog.title}
+              content={blog.content}
+              subtitle={blog.category_name}
+              style={getStyle()}
+              fontSize={size?.value}
+              theme={getTheme()}
+            />
+          )}
         </ContentWrapper>
       </Wrapper>
       <Sheet

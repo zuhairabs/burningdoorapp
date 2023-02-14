@@ -1,7 +1,7 @@
 import React from "react";
 import { ThemeProvider } from "styled-components";
 import { useTheme } from "../../context/ThemeContext";
-import { DARK_THEME, LIGHT_THEME } from "../../lib/utlis";
+import { DARK_THEME, LIGHT_THEME } from "../../lib/utils";
 
 const ThemeWrapper = ({ children }) => {
   const { isDarkTheme } = useTheme();

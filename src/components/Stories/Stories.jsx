@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { IoClose } from "react-icons/io5";
 import { BsFillVolumeUpFill, BsVolumeMuteFill } from "react-icons/bs";
+import LogoImg from "../../assets/logo.png";
 
 const ContentWrapper = styled.div`
   width: 100%;
@@ -114,8 +115,10 @@ export const Story = ({ story }) => {
         <Image src={story.story.img} alt={story.story.title} />
       ) : (
         <Video
+          poster={LogoImg}
           ref={videoRef}
           src={story.story.video}
+          preload="metadata"
           autoPlay
           playsInline
           muted
